@@ -16,7 +16,10 @@
       </template>
       <menu-content :nav-data="menu" />
       <template #operations>
-        <span :class="versionCls"> {{ !collapsed ? 'TDesign Starter' : '' }} {{ pgk.version }} </span>
+        <t-button theme="default" shape="square" variant="text" @click="changeCollapsed">
+            <t-icon class="collapsed-icon" name="view-list" />
+          </t-button>
+        <!-- <span :class="versionCls"> {{ !collapsed ? 'TDesign Starter' : '' }} {{ pgk.version }} </span> -->
       </template>
     </t-menu>
     <div :class="`${prefix}-side-nav-placeholder${collapsed ? '-hidden' : ''}`"></div>
@@ -136,7 +139,11 @@ const menuCls = computed(() => {
     },
   ];
 });
-
+const changeCollapsed = () => {
+  settingStore.updateConfig({
+    isSidebarCompact: !settingStore.isSidebarCompact,
+  });
+};
 const router = useRouter();
 const settingStore = useSettingStore();
 

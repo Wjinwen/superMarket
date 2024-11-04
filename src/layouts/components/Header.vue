@@ -5,12 +5,12 @@
         <span v-if="showLogo" class="header-logo-container" @click="handleNav('/dashboard/base')">
           <logo-full class="t-logo" />
         </span>
-        <div v-else class="header-operate-left">
+        <!-- <div v-else class="header-operate-left">
           <t-button theme="default" shape="square" variant="text" @click="changeCollapsed">
             <t-icon class="collapsed-icon" name="view-list" />
           </t-button>
           <search :layout="layout" />
-        </div>
+        </div> -->
       </template>
       <template v-if="layout !== 'side'" #default>
         <menu-content class="header-menu" :nav-data="menu" />
@@ -18,12 +18,12 @@
       <template #operations>
         <div class="operations-container">
           <!-- 搜索框 -->
-          <search v-if="layout !== 'side'" :layout="layout" />
+          <!-- <search v-if="layout !== 'side'" :layout="layout" /> -->
 
           <!-- 全局通知 -->
-          <notice />
+          <!-- <notice /> -->
 
-          <t-tooltip placement="bottom" :content="t('layout.header.code')">
+          <!-- <t-tooltip placement="bottom" :content="t('layout.header.code')">
             <t-button theme="default" shape="square" variant="text" @click="navToGitHub">
               <t-icon name="logo-github" />
             </t-button>
@@ -32,7 +32,7 @@
             <t-button theme="default" shape="square" variant="text" @click="navToHelper">
               <t-icon name="help-circle" />
             </t-button>
-          </t-tooltip>
+          </t-tooltip> 
           <t-dropdown trigger="click">
             <t-button theme="default" shape="square" variant="text">
               <translate-icon />
@@ -46,13 +46,13 @@
                 >{{ lang.content }}</t-dropdown-item
               ></t-dropdown-menu
             >
-          </t-dropdown>
+          </t-dropdown>-->
           <t-dropdown :min-column-width="120" trigger="click">
             <template #dropdown>
               <t-dropdown-menu>
-                <t-dropdown-item class="operations-dropdown-container-item" @click="handleNav('/user/index')">
+                <!-- <t-dropdown-item class="operations-dropdown-container-item" @click="handleNav('/user/index')">
                   <user-circle-icon />{{ t('layout.header.user') }}
-                </t-dropdown-item>
+                </t-dropdown-item> -->
                 <t-dropdown-item class="operations-dropdown-container-item" @click="handleLogout">
                   <poweroff-icon />{{ t('layout.header.signOut') }}
                 </t-dropdown-item>
