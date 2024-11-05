@@ -66,11 +66,11 @@
               <template #suffix><chevron-down-icon /></template>
             </t-button>
           </t-dropdown>
-          <t-tooltip placement="bottom" :content="t('layout.header.setting')">
+          <!-- <t-tooltip placement="bottom" :content="t('layout.header.setting')">
             <t-button theme="default" shape="square" variant="text" @click="toggleSettingPanel">
               <setting-icon />
             </t-button>
-          </t-tooltip>
+          </t-tooltip> -->
         </div>
       </template>
     </t-head-menu>
@@ -92,8 +92,8 @@ import { useSettingStore, useUserStore } from '@/store';
 import type { MenuRoute, ModeType } from '@/types/interface';
 
 import MenuContent from './MenuContent.vue';
-import Notice from './Notice.vue';
-import Search from './Search.vue';
+// import Notice from './Notice.vue';
+// import Search from './Search.vue';
 
 const props = defineProps({
   theme: {
