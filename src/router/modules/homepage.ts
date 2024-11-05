@@ -21,13 +21,13 @@ export default [
       icon: shallowRef(HomeIcon),
       single:true,
     },
-    children: [{path: '',name: 'home',component: Home,}],
+    children: [{path: '',name: 'Home',component: Home,}],
   },
   {
-    path: '/dashboard',
+    path: '/data',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'dashboard',
+    redirect: '/core',
+    name: 'Data',
     meta: {
       title: {
         zh_CN: '门店数据',
@@ -38,9 +38,9 @@ export default [
     },
     children: [
       {
-        path: 'core-data',
+        path: 'core',
         name: 'CoreData',
-        component: () => import('@/pages/dashboard/base/index.vue'),
+        component: () => import('@/pages/Data/core/index.vue'),
         meta: {
           title: {
             zh_CN: '核心数据',
@@ -49,9 +49,9 @@ export default [
         },
       },
       {
-        path: 'qa-data',
+        path: 'qa',
         name: 'QAData',
-        component: () => import('@/pages/dashboard/detail/index.vue'),
+        component: () => import('@/pages/Data/qa/index.vue'),
         meta: {
           title: {
             zh_CN: '问答数据',

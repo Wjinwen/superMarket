@@ -4,13 +4,13 @@ import { store } from '@/store';
 import type { TRouterInfo, TTabRouterType } from '@/types/interface';
 
 const homeRoute: Array<TRouterInfo> = [
-  {
-    path: '/dashboard/base',
-    routeIdx: 0,
-    title: '仪表盘',
-    name: 'DashboardBase',
-    isHome: true,
-  },
+  // {
+  //   path: '/home',
+  //   routeIdx: 0,
+  //   title: '首页',
+  //   name: 'Home',
+  //   isHome: true,
+  // },
 ];
 
 const state = {
