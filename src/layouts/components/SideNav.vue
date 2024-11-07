@@ -15,12 +15,11 @@
         </span>
       </template>
       <menu-content :nav-data="menu" />
-      <template #operations>
+      <!-- <template #operations>
         <t-button theme="default" shape="square" variant="text" @click="changeCollapsed">
             <t-icon class="collapsed-icon" name="view-list" />
           </t-button>
-        <!-- <span :class="versionCls"> {{ !collapsed ? 'TDesign Starter' : '' }} {{ pgk.version }} </span> -->
-      </template>
+      </template> -->
     </t-menu>
     <div :class="`${prefix}-side-nav-placeholder${collapsed ? '-hidden' : ''}`"></div>
   </div>

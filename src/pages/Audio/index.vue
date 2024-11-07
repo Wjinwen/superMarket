@@ -1,9 +1,15 @@
 <template>
   <div class="audio-wrap">
-    <div style="font-size: 16px;">小佳声音</div>
-    <div class="audio" v-if="audioSrc">
-      <audio ref="audioPlayer" :src="audioSrc" @ended="onEnded"></audio>
-    </div>
+    <div style="font-size: 18px;margin-bottom: 16px;">小佳声音</div>
+    <play-audio ref="audioEle" @audioLoaded="audioLoaded">
+      <template #btn>
+        <div style="background-color: var(--td-brand-color);width: 150px;padding: 6px 12px;display: flex;
+        align-items: center;justify-content: space-between;border-radius: 5px;color: var(--td-text-color-anti)">
+          <span v-if="audioPlayer">{{ Math.floor(audioPlayer.duration) }}s</span>
+          <t-icon name="play-circle-filled" size="18"/>
+        </div>
+      </template>
+    </play-audio>
   </div>
 </template>
 
@@ -14,18 +20,20 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed, nextTick, onDeactivated, onMounted, ref, watch } from 'vue';
-import { useSettingStore } from '@/store';
-import { LAST_7_DAYS } from '@/utils/date';
+import { ref } from 'vue';
+import playAudio from '@/components/playAudio/index.vue';
 
-
-const audioPlayer=ref();
-const audioSrc=ref('');
+const audioPlayer = ref(null);
+const audioEle=ref(null);
 const data = ref({
   sysChecked:true,
   soundChecked:true,
   sound:30
 })
+
+const audioLoaded = (val:any) => {
+  audioPlayer.value=val
+};
 
 </script>
 

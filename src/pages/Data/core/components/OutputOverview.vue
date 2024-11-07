@@ -20,45 +20,6 @@
           <div id="stokeContainer" style="width: 100%; height: 351px" class="dashboard-chart-container"></div>
         </t-card>
       </t-col>
-      <t-col :xs="12" :xl="3">
-        <t-card :bordered="false" :class="{ 'dashboard-overview-card': true, 'export-panel': true }">
-          <template #actions>
-            <t-button>{{ t('pages.dashboardBase.outputOverview.export') }}</t-button>
-          </template>
-          <t-row>
-            <t-col :xs="6" :xl="12">
-              <t-card
-                :bordered="false"
-                :subtitle="t('pages.dashboardBase.outputOverview.month.input')"
-                class="inner-card"
-              >
-                <div class="inner-card__content">
-                  <div class="inner-card__content-title">1726</div>
-                  <div class="inner-card__content-footer">
-                    {{ t('pages.dashboardBase.outputOverview.since') }}
-                    <trend class="trend-tag" type="down" :is-reverse-color="false" describe="20.3%" />
-                  </div>
-                </div>
-              </t-card>
-            </t-col>
-            <t-col :xs="6" :xl="12">
-              <t-card
-                :bordered="false"
-                :subtitle="t('pages.dashboardBase.outputOverview.month.output')"
-                class="inner-card"
-              >
-                <div class="inner-card__content">
-                  <div class="inner-card__content-title">226</div>
-                  <div class="inner-card__content-footer">
-                    {{ t('pages.dashboardBase.outputOverview.since') }}
-                    <trend class="trend-tag" type="down" :is-reverse-color="false" describe="20.3%" />
-                  </div>
-                </div>
-              </t-card>
-            </t-col>
-          </t-row>
-        </t-card>
-      </t-col>
     </t-row>
   </t-card>
 </template>
