@@ -15,7 +15,7 @@
 
 <script lang="ts">
 export default {
-  name: 'DashboardBase',
+  name: 'DataCore',
 };
 </script>
 
