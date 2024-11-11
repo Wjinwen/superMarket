@@ -47,12 +47,13 @@
               ></t-dropdown-menu
             >
           </t-dropdown>-->
-          <t-dropdown :min-column-width="120" trigger="click">
+          <div style='color:var(--td-text-color-anti);cursor: pointer;'>退出</div>
+          <!-- <t-dropdown :min-column-width="120" trigger="click">
             <template #dropdown>
               <t-dropdown-menu>
-                <!-- <t-dropdown-item class="operations-dropdown-container-item" @click="handleNav('/user/index')">
+                <t-dropdown-item class="operations-dropdown-container-item" @click="handleNav('/user/index')">
                   <user-circle-icon />{{ t('layout.header.user') }}
-                </t-dropdown-item> -->
+                </t-dropdown-item>
                 <t-dropdown-item class="operations-dropdown-container-item" @click="handleLogout">
                   <poweroff-icon />{{ t('layout.header.signOut') }}
                 </t-dropdown-item>
@@ -65,7 +66,7 @@
               <div class="header-user-account">{{ user.userInfo.name }}</div>
               <template #suffix><chevron-down-icon /></template>
             </t-button>
-          </t-dropdown>
+          </t-dropdown> -->
           <!-- <t-tooltip placement="bottom" :content="t('layout.header.setting')">
             <t-button theme="default" shape="square" variant="text" @click="toggleSettingPanel">
               <setting-icon />
@@ -186,6 +187,7 @@ const navToHelper = () => {
 </script>
 <style lang="less" scoped>
 .@{starter-prefix}-header {
+ 
   &-menu-fixed {
     position: fixed;
     top: 0;
@@ -213,7 +215,9 @@ const navToHelper = () => {
     display: inline-flex;
   }
 }
-
+.t-head-menu{
+  background:#06E366;
+}
 .header-menu {
   flex: 1 1 1;
   display: inline-flex;

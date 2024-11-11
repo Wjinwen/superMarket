@@ -10,9 +10,10 @@
       @expand="onExpanded"
     >
       <template #logo>
-        <span v-if="showLogo" :class="`${prefix}-side-nav-logo-wrapper`" @click="goHome">
-          <component :is="getLogo()" :class="logoCls" />
-        </span>
+        <div v-if="showLogo" :class="`${prefix}-side-nav-logo-wrapper`" @click="goHome">
+          <img src='@/assets/img/logo_white.png' style='width:180px'/>
+          <!-- <component :is="getLogo()" :class="logoCls" /> -->
+        </div>  
       </template>
       <menu-content :nav-data="menu" />
       <!-- <template #operations>
@@ -32,8 +33,8 @@ import type { PropType } from 'vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
-import AssetLogoFull from '@/assets/assets-logo-full.svg?component';
-import AssetLogo from '@/assets/assets-t-logo.svg?component';
+// import AssetLogoFull from '@/assets/img/logo_white.png';
+// import AssetLogo from '@/assets/assets-t-logo.svg?component';
 import { prefix } from '@/config/global';
 import { getActive } from '@/router';
 import { useSettingStore } from '@/store';
@@ -173,4 +174,10 @@ const getLogo = () => {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.@{starter-prefix}-sidebar-layout{
+  :deep(.t-menu__logo){
+    background:#06E366;
+  }
+}
+</style>

@@ -9,8 +9,11 @@
     ></t-select>
    </div>
    <div class="search-timerange">
-    <t-date-range-picker v-if="showDateRange" v-model="searchFiled.timeRange" :presets="timePresets" />
-  </div>
+      <t-date-range-picker v-if="showDateRange" v-model="searchFiled.timeRange" :presets="timePresets" />
+    </div>
+    <div style='margin-left:32px;' v-if='showBtn'>
+      <t-button>查询</t-button>
+    </div>
   </div>
 </template>
  
@@ -30,7 +33,8 @@ const props = defineProps({
   value: {
     type: String,
   },
-  showDateRange:{type:Boolean,default:true}
+  showDateRange:{type:Boolean,default:true},
+  showBtn:{type:Boolean,default:true}
 });
 
 const searchFiled= ref({

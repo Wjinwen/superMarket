@@ -22,6 +22,9 @@
         <t-slider inputNumberProps v-model="data.sound" @change-end="onChangeSoundEnd"/>
       </div>
     </div>
+    <div > 
+      <t-button>保存</t-button>
+    </div>
    
   </div>
 </template>
