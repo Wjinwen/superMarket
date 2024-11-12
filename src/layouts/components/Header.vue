@@ -47,7 +47,7 @@
               ></t-dropdown-menu
             >
           </t-dropdown>-->
-          <div style='color:var(--td-text-color-anti);cursor: pointer;'>退出</div>
+          <div style='color:var(--td-text-color-anti);cursor: pointer;' @click="handleLogout">退出</div>
           <!-- <t-dropdown :min-column-width="120" trigger="click">
             <template #dropdown>
               <t-dropdown-menu>
