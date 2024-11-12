@@ -44,6 +44,10 @@ const audioLoaded = (val:any) => {
   background: var(--td-font-white-1);
   border-radius: 5px;
   padding: var(--td-comp-paddingTB-l) var(--td-comp-paddingLR-l);
+  background-image: url('/src/assets/img/robot_ipvoice.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size:412px 582px;
 }
 
 </style>
