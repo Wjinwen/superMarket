@@ -1,10 +1,8 @@
 <template>
   <div class="login-wrapper">
-    
     <div class="login-container">
       <img src="@/assets/img/logo_colorful.png" alt="" class="login-titleimg" />
       <login />
-      
       <tdesign-setting />
     </div>
   </div>

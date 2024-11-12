@@ -13,13 +13,14 @@
         </div>
       </template>
     </div>
+    <modifyDia ref="modifyDiaRef"/>
+    <t-dialog
+      header="删除" v-model:visible="delVisible" width="500px" theme="danger" :closeOnOverlayClick="false" @confirm="submitDel"
+    >
+      <div>确认删除话术【】吗？</div>
+    </t-dialog>
   </div>
-  <modifyDia ref="modifyDiaRef"/>
-  <t-dialog
-    header="删除" v-model:visible="delVisible" width="500px" theme="danger" :closeOnOverlayClick="false" @confirm="submitDel"
-  >
-    <div>确认删除话术【】吗？</div>
-  </t-dialog>
+ 
 </template>
 
 <script lang="ts">
