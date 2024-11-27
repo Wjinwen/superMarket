@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
       return;
     }
     try {
-      await userStore.getUserInfo();
+      // await userStore.getUserInfo();
       // 接口获取路由asyncRoutes
       // const { asyncRoutes } = permissionStore;
 

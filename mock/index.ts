@@ -3,6 +3,16 @@ import { MockMethod } from 'vite-plugin-mock';
 
 export default [
   {
+    url: '/api/login',
+    method: 'post',
+    response: () => {
+      return { code: 200,
+        msg: "操作成功111",
+        token: "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImY0ZGQ0ZGNiLTE0MmItNGZiOS1hZGY1LWJjMDYxYzdjMmNjNCJ9.YVwOEBnig4C6WiG0Ot3Vau_ecYgNglCulFvZDj_H3AZ-MwNRoeYDT6pKeYb33MmBreI3LnlD5FnKSb_LDMB9mw"}},
+  },
+
+  // =========================
+  {
     url: '/api/get-purchase-list',
     method: 'get',
     response: () => ({

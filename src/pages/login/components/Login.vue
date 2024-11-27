@@ -8,8 +8,8 @@
     style="width: 300px;margin-top: -50px;"
   >
     <template v-if="type == 'password'">
-      <t-form-item name="account">
-        <t-input v-model="formData.account" size="large" :placeholder="`${t('pages.login.input.account')}：admin`">
+      <t-form-item name="username">
+        <t-input v-model="formData.username" size="large" :placeholder="`${t('pages.login.input.account')}：admin`">
           <template #prefix-icon>
             <t-icon name="user" />
           </template>
@@ -50,12 +50,12 @@ import { useUserStore } from '@/store';
 const userStore = useUserStore();
 
 const INITIAL_DATA = {
-  account: 'admin',
-  password: 'admin',
+  username: 'admin',
+  password: 'admin123',
 };
 
 const FORM_RULES: Record<string, FormRule[]> = {
-  account: [{ required: true, message: t('pages.login.required.account'), type: 'error' }],
+  username: [{ required: true, message: t('pages.login.required.account'), type: 'error' }],
   password: [{ required: true, message: t('pages.login.required.password'), type: 'error' }],
 };
 

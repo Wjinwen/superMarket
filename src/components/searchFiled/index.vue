@@ -6,6 +6,7 @@
       :options="shopOptions"
       placeholder="请选择店铺"
       clearable
+      :keys="{ label: 'storeName', value: 'storeId' }"
     ></t-select>
    </div>
    <div class="search-timerange">
@@ -27,6 +28,8 @@ export default {
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { SelectProps,DateRangePickerProps } from 'tdesign-vue-next';
 import dayjs from 'dayjs';
+import { getStoreList} from '@/api/store'
+import type { StoreItem } from '@/api/model/storeModel';
 
 const emit = defineEmits(['search']);
 const props = defineProps({
@@ -53,23 +56,12 @@ const timePresets = ref<DateRangePickerProps['presets']>({
   最近3天: [dayjs().subtract(2, 'day').toDate(), dayjs().toDate()],
 });
 
-const shopOptions: SelectProps['options'] = [
-  {
-    label: '架构云',
-    value: '1',
-    title: '架构云选项',
-  },
-  {
-    label: '大数据',
-    value: '2',
-    title: '',
-  },
-  {
-    label: '区块链',
-    value: '3',
-  }];
-
+const shopOptions=ref<StoreItem[]>([])
 onMounted(() => {
+  getStoreList().then((res)=>{
+    console.log(res)
+    if(res.code===200&&res.rows) shopOptions.value=res.rows
+  })
   if(props.showDateRange) searchFiled.value.timeRange=[dayjs().subtract(6, 'day').toDate(), dayjs().toDate()]
 });
 
