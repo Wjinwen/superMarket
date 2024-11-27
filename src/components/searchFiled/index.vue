@@ -13,7 +13,7 @@
       <t-date-range-picker v-if="showDateRange" v-model="searchFiled.timeRange" :presets="timePresets" />
     </div>
     <div style='margin-left:32px;' v-if='showBtn'>
-      <t-button>查询</t-button>
+      <t-button @click='subEmit'>查询</t-button>
     </div>
   </div>
 </template>
@@ -42,27 +42,35 @@ const props = defineProps({
 
 const searchFiled= ref({
   timeRange :[],
-  shop:''
+  shop:null
 })
 
 watch(() => searchFiled, (val) => {
-  console.log('searchFiled 变了=== emit',searchFiled)
+  if (props.showBtn) return;
   emit('search',val);
 }, { deep:true });
 
+const subEmit=() => {
+  emit('search',searchFiled.value);
+};
+
 const timePresets = ref<DateRangePickerProps['presets']>({
-  最近14天: [dayjs().subtract(13, 'day').toDate(), dayjs().toDate()],
-  最近7天: [dayjs().subtract(6, 'day').toDate(), dayjs().toDate()],
-  最近3天: [dayjs().subtract(2, 'day').toDate(), dayjs().toDate()],
+  最近14天: [dayjs().subtract(13, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+  最近7天: [dayjs().subtract(6, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+  最近3天: [dayjs().subtract(2, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
 });
 
 const shopOptions=ref<StoreItem[]>([])
 onMounted(() => {
   getStoreList().then((res)=>{
-    console.log(res)
-    if(res.code===200&&res.rows) shopOptions.value=res.rows
+    if(res.code===200&&res.rows) {
+      shopOptions.value=res.rows
+      searchFiled.value.shop=res.rows[0].storeId
+    }
+  }).finally(()=>{
+    subEmit()
   })
-  if(props.showDateRange) searchFiled.value.timeRange=[dayjs().subtract(6, 'day').toDate(), dayjs().toDate()]
+  if(props.showDateRange) searchFiled.value.timeRange=[dayjs().subtract(6, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')]
 });
 
 

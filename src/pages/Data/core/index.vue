@@ -1,7 +1,7 @@
 <template>
   <div class="data-core-wrap">
-    <searchFiled />
-    <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">人流总量 {{ '2400' }}</div>
+    <searchFiled @search="getData"/>
+    <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">人流总量 {{total}}</div>
     <t-row :gutter="[16, 16]">
         <t-col v-for="i in 8" :key="i" :xs="6" :xl="4">
           <t-card :bordered="false">
@@ -22,6 +22,8 @@ export default {
 <script setup lang="ts">
 import searchFiled from '@/components/searchFiled/index.vue';
 import chart from '@/components/chart/index.vue';
+import { getStoreDailyChart} from '@/api/store'
+import type { StoreVist } from '@/api/model/storeModel';
 import { ref } from 'vue';
 const options=ref({
   xAxis: {
@@ -42,6 +44,19 @@ const options=ref({
     }
   ]
 })
+const ListData=ref<StoreVist[]>([])
+const total=ref<number|null>(null)
+const getData = (searchObj:any) => {
+  console.log('===searchHandler',searchObj)
+  getStoreDailyChart({storeId:searchObj.storeId,startDate:searchObj[0],endDate:searchObj[1]}).then((res)=>{
+    if(res.code===200&&res.rows) {
+      ListData.value=res.rows
+      total.value=res.total
+    }
+  })
+};
+
+
 </script>
 
 <style lang="less" scoped>
