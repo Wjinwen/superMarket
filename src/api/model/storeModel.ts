@@ -1,11 +1,10 @@
-
 export interface getListResult {
   code:number
-  msg: string;
+  msg?: string;
   total?:number
   rows?: Array<any>;
+  data?:any
 }
-
 export interface StoreItem {
   createBy?: string,
   createTime?: string,
@@ -23,16 +22,28 @@ export interface StoreVist {
   updateBy?: string,
   updateTime?: string,
   remark?: string,
-  dataId:number,
-  storeId: number,
-  date: string,
-  customerCount:number
-  manualServiceCount:number
-  aiChatCount:number
-  childrenCount:number
-  teenagerCount:number
-  youngCount:number
-  middleAgeCount:number
-  oldCount:number
-  storeName:string
+  dataId?:number,
+  storeId?: number,
+  date?: string|null,
+  customerCount:any
+  manualServiceCount:any
+  aiChatCount:any
+  childrenCount:any
+  teenagerCount:any
+  youngCount:any
+  middleAgeCount:any
+  oldCount:any
+  storeName?:string
 }
+
+export interface QaItem {
+  createBy?: string,
+  createTime?: string,
+  updateBy?: string,
+  updateTime?: string,
+  remark?: string,
+  qaId:number,
+  question: string,
+  answer:string
+}
+

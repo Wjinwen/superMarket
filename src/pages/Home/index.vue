@@ -1,8 +1,8 @@
 <template>
-  <div class="home-panel-detail">
+  <div class="home-panel-detail" v-loading='Loading'>
     <div style="display: flex;align-items: center;margin-bottom: 12px;">
       <span style="margin-right: 32px;">全国店铺</span>
-      <t-date-picker v-model="defaulTime" clearable :disableDate="{after: dayjs().format()}" :format="'YYYY-MM-DD'" @change="handleChange"/>
+      <t-date-picker v-model="defaulTime" clearable :disableDate="{after: dayjs().format()}" :format="'YYYY-MM-DD'" @change="getData"/>
     </div>
     <t-row :gutter="[16, 16]">
       <t-col v-for="(item, index) in PANE_LIST_DATA" :key="index" :xs="6" :xl="4" :xxl="2">
@@ -12,7 +12,7 @@
             <t-icon name="sneer" size="45" v-else/>
           </div>
           <div class="home-card__info">
-            <span class="home-card__info__number">{{ item.number }}</span>
+            <span class="home-card__info__number">{{ (vistorList&&vistorList[item.code])||'-' }}</span>
             <div class="home-card__info__title">{{ item.title }}</div>
           </div>
         </t-card>
@@ -42,15 +42,16 @@ import { computed, nextTick, onDeactivated, onMounted, watch,ref } from 'vue';
 import { TableProps,DateValue} from 'tdesign-vue-next';
 import dayjs from 'dayjs';
 import { useSettingStore } from '@/store';
-import { getStoreTop10} from '@/api/store'
+import { getStoreTop10,getAllStoreVistor} from '@/api/store'
 import type { StoreVist } from '@/api/model/storeModel';
 import { constant } from 'lodash';
-import { PANE_LIST_DATA ,TABLE_LIST} from './constants';
+import { PANE_LIST_DATA } from './constants';
 
 
 const defaulTime = ref<string>(dayjs().format('YYYY-MM-DD'));
-
-const tableData=ref<StoreVist[]>([])
+const Loading=ref<Boolean>(false);
+const tableData=ref<StoreVist[]>([]);
+const vistorList=ref<any>(null);
 const columns = ref<TableProps['columns']>([
   {
     colKey: 'serial-number',
@@ -69,14 +70,20 @@ const columns = ref<TableProps['columns']>([
     align:'center'
   }
 ]);
-function handleChange(value: DateValue,) {
-  getData()
-}
+// function handleChange(value: DateValue,) {
+//   vistorList.value=null;
+//   getData()
+// }
 
 const getData = () => {
-  getStoreTop10({queryDate:defaulTime.value}).then((res)=>{
-    if(res.code===200&&res.rows) tableData.value=res.rows
-  })
+  Loading.value=true;
+  Promise.all([getStoreTop10({queryDate:defaulTime.value}), getAllStoreVistor({queryDate:defaulTime.value})]).then(axiosResponses => {
+    tableData.value = axiosResponses[0].rows||[];
+    vistorList.value = axiosResponses[1].data||null;
+  }).finally(() => {
+    Loading.value=false
+  });
+ 
 };
 
 onMounted(() => {
