@@ -2,7 +2,7 @@
   <div class="home-panel-detail">
     <div style="display: flex;align-items: center;margin-bottom: 12px;">
       <span style="margin-right: 32px;">全国店铺</span>
-      <t-date-picker :defaultValue="defaulTime" :disableDate="{after: dayjs().format()}"/>
+      <t-date-picker v-model="defaulTime" clearable :disableDate="{after: dayjs().format()}" :format="'YYYY-MM-DD'" @change="handleChange"/>
     </div>
     <t-row :gutter="[16, 16]">
       <t-col v-for="(item, index) in PANE_LIST_DATA" :key="index" :xs="6" :xl="4" :xxl="2">
@@ -21,7 +21,7 @@
     <div style="margin: 32px 0 16px;font-weight: 600;font-size: var(--td-size-6);">店铺流量TOP 10</div>
     <t-table
       row-key="index"
-      :data="TABLE_LIST"
+      :data="tableData"
       :columns="columns"
       stripe  
       cell-empty-content="-"
@@ -39,14 +39,18 @@ export default {
 
 <script setup lang="tsx">
 import { computed, nextTick, onDeactivated, onMounted, watch,ref } from 'vue';
-import { TableProps} from 'tdesign-vue-next';
+import { TableProps,DateValue} from 'tdesign-vue-next';
 import dayjs from 'dayjs';
 import { useSettingStore } from '@/store';
-
+import { getStoreTop10} from '@/api/store'
+import type { StoreVist } from '@/api/model/storeModel';
+import { constant } from 'lodash';
 import { PANE_LIST_DATA ,TABLE_LIST} from './constants';
 
-const defaulTime = dayjs().toDate();
 
+const defaulTime = ref<string>(dayjs().format('YYYY-MM-DD'));
+
+const tableData=ref<StoreVist[]>([])
 const columns = ref<TableProps['columns']>([
   {
     colKey: 'serial-number',
@@ -59,14 +63,24 @@ const columns = ref<TableProps['columns']>([
     title: '店铺名称',
   },
   {
-    colKey: 'count',
+    colKey: 'customerCount',
     title: '人流量',
     width: '200',
     align:'center'
   }
 ]);
+function handleChange(value: DateValue,) {
+  getData()
+}
+
+const getData = () => {
+  getStoreTop10({queryDate:defaulTime.value}).then((res)=>{
+    if(res.code===200&&res.rows) tableData.value=res.rows
+  })
+};
 
 onMounted(() => {
+  getData()
 });
 
 

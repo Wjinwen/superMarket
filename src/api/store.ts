@@ -1,12 +1,20 @@
-import type { getStoreListResult } from '@/api/model/storeModel';
+import type { getListResult } from '@/api/model/storeModel';
 import { request } from '@/utils/request';
 
 const Api = {
-  getStoreList: '/store/info/list',
+  getStoreList: '/store/info/list', //店铺列表
+  getStoreTop10:'/store/dailyData/listByIdAndDateRangeTop10' //首页-店铺流量top10列表
 };
 
 export function getStoreList() {
-  return request.get<getStoreListResult>({
+  return request.get<getListResult>({
     url: Api.getStoreList,
+  });
+}
+
+export function getStoreTop10(params:any) {
+  return request.get<getListResult>({
+    url: Api.getStoreTop10,
+    params
   });
 }

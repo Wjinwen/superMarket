@@ -9,6 +9,7 @@ import { useUserStore } from '@/store';
 import { VAxios } from './Axios';
 import type { AxiosTransform, CreateAxiosOptions } from './AxiosTransform';
 import { formatRequestDate, joinTimestamp, setObjToUrlParams } from './utils';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 const env = import.meta.env.MODE || 'development';
 
@@ -127,6 +128,10 @@ const transform: AxiosTransform = {
 
   // 响应拦截器处理
   responseInterceptors: (res) => {
+    if(res.status===401||(res.data.code&&res.data.code===401)) {
+      MessagePlugin.error('登陆状态已过期，请重新登录');
+      window.location.replace('/login')
+    }
     return res;
   },
 

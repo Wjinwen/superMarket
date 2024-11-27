@@ -1,13 +1,16 @@
 <template>
   <div class="home-panel-detail">
-    <div style="display: flex;align-items: center;margin-bottom: 12px;">
-      <div style="width: 300px;"><t-select
-      v-model="shop"
-      :options="shopOptions"
-      placeholder="请选择店铺"
-      clearable
-    ></t-select></div>
-    
+    <div style="display: flex;align-items: center;margin-bottom: 12px;justify-content: space-between;">
+      <div style="width: 300px;">
+        <t-select
+        v-model="shop"
+        :options="shopOptions"
+        placeholder="请选择店铺"
+        clearable
+      ></t-select>
+     
+      </div>
+      <t-button>新增</t-button>
     </div>
     <t-table
       row-key="index"
@@ -39,19 +42,17 @@ const shop= ref('')
 const columns = ref<TableProps['columns']>([
   {
     colKey: 'serial-number',
-    title: '排序',
-    width: '100',
-    align:'center'
+    title: '层级',
+    width: '150',
   },
   {
     colKey: 'storeName',
-    title: '店铺名称',
+    title: '存放物品',
   },
   {
-    colKey: 'count',
-    title: '人流量',
+    colKey: 'op',
+    title: '操作',
     width: '200',
-    align:'center'
   }
 ]);
 
