@@ -1,22 +1,40 @@
 <template>
-  <div class="qa-setting-wrap">
-    <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">话术</div>
-    <div style="background: var(--td-bg-color-container);height: calc(100% - 36px);padding: 16px;">
-      <t-button @click="()=>{modifyDiaRef.show()}" >新建话术</t-button>
-      <template v-for="i in 5" :key="i">
-        <div style="display: flex;align-items: center;margin: 16px 0;">
-          <qaCard style="flex:1;"/>
+  <div class="speech-wrap">
+    <div style="font-size: 18px;font-weight: 600;padding:0 8px; margin-bottom: 16px;display: flex;justify-content: space-between;">
+      <div style="width: 30%;">场景描述</div>
+      <div style="flex: 1;margin: 0 16px;">反应语言</div>
+      <div style="width: 25%;">动作效果</div>
+    </div>
+    <div style="background: var(--td-bg-color-container);display: flex;margin-bottom: 16px;padding: 12px 8px 6px;justify-content: space-between;" v-for="i in 5" :key="i">
+      <div style="width: 30%;">
+        <div class="gray-item" style="flex: 1;">
+            {{ i }}场景
+          </div>
+      </div>
+      <div style="flex: 1;margin: 0 16px;">
+        <div v-for="i in 3" :key="i" style="margin-bottom: 6px;display: flex;align-items: center">
+          <div class="gray-item" style="flex: 1;">
+            {{ i }}条动作提示
+          </div>
           <div class="op-wrap">
             <div style="margin-right: 16px;" @click="()=>{modifyDiaRef.show()}" >修改</div>
             <div style="color: var(--td-error-color);" @click="delVisible=true" >删除</div>
           </div>
         </div>
-      </template>
+        <div style="width:calc(100% - 72px);display: flex;justify-content: center;">
+          <t-button @click="()=>{modifyDiaRef.show()}">新增</t-button>
+        </div>
+      </div>
+      <div style="width: 25%;">
+        <div class="gray-item" style="flex: 1;display: flex;justify-content: space-between;">
+            {{ i }}audio name
+            <playAudio />
+          </div>
+        </div>
     </div>
-    <t-dialog
-      header="删除" v-model:visible="delVisible" width="500px" theme="danger" :closeOnOverlayClick="false" @confirm="submitDel"
-    >
-      <div>确认删除话术【】吗？</div>
+    <modifyDia ref="modifyDiaRef"/>
+    <t-dialog header="删除" v-model:visible="delVisible" theme="danger" :closeOnOverlayClick="false" @confirm="submitDel">
+      <div>确认删除反应语言【】吗？</div>
     </t-dialog>
   </div>
  
@@ -29,8 +47,9 @@ export default {
 </script>
 
 <script setup lang="ts">
-import qaCard from '@/components/qaCard/index.vue';
 import { ref } from 'vue';
+import playAudio from '@/components/playAudio/index.vue';
+import modifyDia from './modifyDia.vue';
 
 const modifyDiaRef=ref()
 const delVisible=ref(false)
@@ -57,8 +76,13 @@ const submitDel = () => {
 </script>
 
 <style lang="less" scoped>
-.qa-setting-wrap{
+.speech-wrap{
   height: 100%;
+}
+.gray-item{
+  padding: 3px 6px;
+  width: 100%;
+  background-color: var(--td-gray-color-1);
 }
 .op-wrap{
   display: flex;
