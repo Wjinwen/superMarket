@@ -1,3 +1,5 @@
+import { number } from "echarts";
+
 export interface getListResult {
   code:number
   msg?: string;
@@ -43,6 +45,17 @@ export interface QaItem {
   updateTime?: string,
   remark?: string,
   qaId:number,
+  question: string,
+  answer:string
+}
+export interface QaHistoryItem {
+  createBy?: string,
+  createTime?: string,
+  updateBy?: string,
+  updateTime?: string,
+  remark?: string,
+  chatId:number,
+  storeId:number
   question: string,
   answer:string
 }

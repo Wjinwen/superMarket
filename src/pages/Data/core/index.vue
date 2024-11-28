@@ -47,8 +47,7 @@ const options=ref({
 const ListData=ref<StoreVist[]>([])
 const total=ref<number|null>(null)
 const getData = (searchObj:any) => {
-  console.log('===searchHandler',searchObj)
-  getStoreDailyChart({storeId:searchObj.storeId,startDate:searchObj[0],endDate:searchObj[1]}).then((res)=>{
+  getStoreDailyChart({storeId:searchObj.shop,startDate:searchObj.timeRange[0],endDate:searchObj.timeRange[1]}).then((res)=>{
     if(res.code===200&&res.rows) {
       ListData.value=res.rows
       total.value=res.total

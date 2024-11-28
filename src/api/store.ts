@@ -7,6 +7,7 @@ const Api = {
   getAllStoreVistor:'/store/dailyData/selectTotalDailyDataByDate', //首页 全国店铺人流量
 
   getStoreDailyChart:'/store/dailyData/listByIdAndDateRange', //门店数据-核心 chart图标数据
+  getStoreQaHistory:'/store/storeChat/list', //门店数据-问答数据
 
   getQaList:'/store/qa/list', //用户问题设置 话术列表
   operateQa:'/store/qa',
@@ -35,6 +36,13 @@ export function getAllStoreVistor(params:any) {
 export function getStoreDailyChart(params:any) {
   return request.get<getListResult>({
     url: Api.getStoreDailyChart,
+    params
+  });
+}
+
+export function getStoreQaHistory(params:any) {
+  return request.get<getListResult>({
+    url: Api.getStoreQaHistory,
     params
   });
 }
