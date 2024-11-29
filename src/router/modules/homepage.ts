@@ -43,7 +43,7 @@ export default [
         component: () => import('@/pages/Data/core/index.vue'),
         meta: {
           title: {
-            zh_CN: '核心数据',
+            zh_CN: '核心数据doing',
             en_US: 'Core Data',
           },
         },
@@ -66,7 +66,7 @@ export default [
     component: Layout,
     meta: {
       title: {
-        zh_CN: '设备控制',
+        zh_CN: '设备控制todo',
         en_US: 'Device Control',
       },
       icon: shallowRef(DeviceIcon),
@@ -92,7 +92,7 @@ export default [
     component: Layout,
     meta: {
       title: {
-        zh_CN: '场景话语',
+        zh_CN: '场景话语todo',
         en_US: 'Scene Speech',
       },
       icon: shallowRef(MapSettingIcon),
@@ -105,7 +105,7 @@ export default [
     component: Layout,
     meta: {
       title: {
-        zh_CN: 'IP声音试听',
+        zh_CN: 'IP声音试听todo',
         en_US: 'IP Sound Trial',
       },
       icon: shallowRef(SoundIcon),

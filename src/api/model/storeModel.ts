@@ -60,3 +60,16 @@ export interface QaHistoryItem {
   answer:string
 }
 
+
+export interface shelfDataItem {
+  createBy?: string,
+  createTime?: string,
+  updateBy?: string,
+  updateTime?: string,
+  remark?: string,
+  dataId:number,
+  storeId:number
+  shelfName: string,
+  productList:string
+}
+

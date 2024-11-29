@@ -17,8 +17,8 @@
             {{ i }}条动作提示
           </div>
           <div class="op-wrap">
-            <div style="margin-right: 16px;" @click="()=>{modifyDiaRef.show()}" >修改</div>
-            <div style="color: var(--td-error-color);" @click="delVisible=true" >删除</div>
+            <div style="margin-right: 16px;cursor: pointer;" @click="()=>{modifyDiaRef.show()}" >修改</div>
+            <div style="color: var(--td-error-color);cursor: pointer;" @click="delVisible=true" >删除</div>
           </div>
         </div>
         <div style="width:calc(100% - 72px);display: flex;justify-content: center;">

@@ -11,6 +11,9 @@ const Api = {
 
   getQaList:'/store/qa/list', //用户问题设置 话术列表
   operateQa:'/store/qa',
+
+  getShelfData:'/store/shelfData/list', //商品货架分类
+  opShelfData:'/store/shelfData', 
 };
 
 export function getStoreList() {
@@ -69,6 +72,32 @@ export function updateQa(data:any) {
 export function addQa(data:any) {
   return request.post<getListResult>({
     url: Api.operateQa,
+    data
+  });
+}
+
+export function getShelfData(params:any) {
+  return request.get<getListResult>({
+    url: Api.getShelfData,
+    params
+  });
+}
+export function delShelfData(dataIds:number) {
+  return request.delete<getListResult>({
+    url: `${Api.opShelfData}/${dataIds}`,
+  });
+}
+
+export function updateShelfData(data:any) {
+  return request.put<getListResult>({
+    url: Api.opShelfData,
+    data
+  });
+}
+
+export function addShelfData(data:any) {
+  return request.post<getListResult>({
+    url: Api.opShelfData,
     data
   });
 }

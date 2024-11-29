@@ -1,5 +1,5 @@
 <template>
-  <div class="qa-setting-wrap" v-loading='qaId'>
+  <div class="qa-setting-wrap" v-loading='Loading'>
     <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">话术</div>
     <div style="background: var(--td-bg-color-container);height: calc(100% - 36px);padding: 16px;">
       <t-button @click="()=>{modifyDiaRef.show()}" >新建话术</t-button>
@@ -7,8 +7,8 @@
         <div style="display: flex;align-items: center;margin: 16px 0;">
           <qaCard style="flex:1;" :Q="qa.question" :A="qa.answer"/>
           <div class="op-wrap">
-            <div style="margin-right: 16px;" @click="()=>{opData=qa;modifyDiaRef.show(qa)}" >修改</div>
-            <div style="color: var(--td-error-color);" @click="()=>{opData=qa;delVisible=true}">删除</div>
+            <div style="margin-right: 16px;cursor: pointer;" @click="()=>{opData=qa;modifyDiaRef.show(qa)}" >修改</div>
+            <div style="color: var(--td-error-color);cursor: pointer;" @click="()=>{opData=qa;delVisible=true}">删除</div>
           </div>
         </div>
       </template>

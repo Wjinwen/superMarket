@@ -1,26 +1,28 @@
 <template>
-  <div class="home-panel-detail">
+  <div class="home-panel-detail" v-loading='Loading'>
     <div style="display: flex;align-items: center;margin-bottom: 12px;justify-content: space-between;">
-      <div style="width: 300px;">
-        <t-select
-        v-model="shop"
-        :options="shopOptions"
-        placeholder="请选择店铺"
-        clearable
-      ></t-select>
-     
-      </div>
-      <t-button>新增</t-button>
+      <searchFiled @search="getSearchData" :showDateRange='false' :showBtn="false" style="margin:0;"/>
+      <t-button @click="()=>{modifyDiaRef.show('',storeId)}" >新增</t-button>
     </div>
     <t-table
       row-key="index"
-      :data="TABLE_LIST"
+      :data="ListData"
       :columns="columns"
       stripe  
       cell-empty-content="-"
       lazy-load
     >
+    <template #op="{ row }">
+      <div style="display: flex;">
+        <div style="margin-right: 16px;cursor: pointer;" @click="()=>{modifyDiaRef.show(row)}" >修改</div>
+        <div style="color: var(--td-error-color);cursor: pointer;" @click="()=>{opData=row;delVisible=true}" >删除</div>
+      </div>
+      </template>
     </t-table>
+    <modifyDia ref="modifyDiaRef"  @fresh='getData'/>
+    <t-dialog header="删除" v-model:visible="delVisible" :closeOnOverlayClick="false" @confirm="submitDel">
+      <div>确认删除货架【{{opData?.shelfName}}】吗？</div>
+    </t-dialog>
   </div>
 </template>
 
@@ -31,22 +33,26 @@ export default {
 </script>
 
 <script setup lang="tsx">
-import { computed, nextTick, onDeactivated, onMounted, watch,ref } from 'vue';
-import { TableProps,SelectProps} from 'tdesign-vue-next';
+import searchFiled from '@/components/searchFiled/index.vue';
+import { ref } from 'vue';
+import { TableProps,MessagePlugin} from 'tdesign-vue-next';
+import { getShelfData,delShelfData} from '@/api/store'
+import type { shelfDataItem } from '@/api/model/storeModel';
 import dayjs from 'dayjs';
-import { useSettingStore } from '@/store';
-import { PANE_LIST_DATA ,TABLE_LIST} from './constants';
+import modifyDia from './modifyDia.vue';
 
+const modifyDiaRef=ref()
+const delVisible=ref(false)
+const opData=ref<shelfDataItem|null>(null)
 const defaulTime = dayjs().toDate();
-const shop= ref('')
 const columns = ref<TableProps['columns']>([
   {
-    colKey: 'serial-number',
-    title: '层级',
+    colKey: 'shelfName',
+    title: '货架',
     width: '150',
   },
   {
-    colKey: 'storeName',
+    colKey: 'productList',
     title: '存放物品',
   },
   {
@@ -56,27 +62,34 @@ const columns = ref<TableProps['columns']>([
   }
 ]);
 
+const ListData=ref<shelfDataItem[]>([])
+const storeId=ref<number|null>(null)
+const submiting=ref(false)
+const Loading=ref<Boolean>(false);
 
-const shopOptions: SelectProps['options'] = [
-  {
-    label: '架构云',
-    value: '1',
-    title: '架构云选项',
-  },
-  {
-    label: '大数据',
-    value: '2',
-    title: '',
-  },
-  {
-    label: '区块链',
-    value: '3',
-  }];
+const getSearchData = (searchObj:any) => {
+  storeId.value=searchObj.shop
+  getData()
+};
 
-onMounted(() => {
-});
-
-
+const getData = () => {
+  getShelfData({storeId:storeId.value}).then((res)=>{
+    if(res.code===200&&res.rows) {
+      ListData.value=res.rows
+    }
+  })
+};
+const submitDel = () => {
+  if(!opData||submiting.value) return;
+  submiting.value=true;
+  delShelfData(opData.value.dataId).then(() => {
+    MessagePlugin.success('删除成功');
+    delVisible.value = false;
+    getData()
+  }).finally(()=>{
+    submiting.value=false;
+  })
+};
 </script>
 
 <style lang="less" scoped>
