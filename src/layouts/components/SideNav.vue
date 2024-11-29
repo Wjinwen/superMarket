@@ -11,8 +11,8 @@
     >
       <template #logo>
         <div v-if="showLogo" :class="`${prefix}-side-nav-logo-wrapper`" @click="goHome">
-          <img src='@/assets/img/logo_white.png' style='width:180px'/>
-          <!-- <component :is="getLogo()" :class="logoCls" /> -->
+          <img src='@/assets/img/logo_mini.png' style='width:40px' v-if="collapsed"/>
+          <img src='@/assets/img/logo_white.png' style='width:180px' v-else/>
         </div>  
       </template>
       <menu-content :nav-data="menu" />
@@ -32,9 +32,6 @@ import { MenuValue } from 'tdesign-vue-next';
 import type { PropType } from 'vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-
-// import AssetLogoFull from '@/assets/img/logo_white.png';
-// import AssetLogo from '@/assets/assets-t-logo.svg?component';
 import { prefix } from '@/config/global';
 import { getActive } from '@/router';
 import { useSettingStore } from '@/store';
@@ -166,11 +163,6 @@ onMounted(() => {
 
 const goHome = () => {
   router.push('/home');
-};
-
-const getLogo = () => {
-  if (collapsed.value) return AssetLogo;
-  return AssetLogoFull;
 };
 </script>
 

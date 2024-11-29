@@ -14,9 +14,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { FormInstanceFunctions } from 'tdesign-vue-next/es/form/type';
-import type { qatype } from './type';
-import _ from 'lodash';
 import { MessagePlugin,FormProps } from 'tdesign-vue-next';
+
+interface qatype {
+  ques:string
+  answer:string
+}
 const emits = defineEmits(['fresh']);
 
 const emptyInit = () => ({

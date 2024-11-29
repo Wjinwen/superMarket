@@ -2,7 +2,7 @@
   <div ref="chartContainer" :style="{ width: '100%', height: height }"></div>
 </template>
  
-<script>
+<script lang="tsx">
 import * as echarts from 'echarts';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
  
@@ -24,7 +24,7 @@ export default {
   },
   setup(props) {
     const chartContainer = ref(null);
-    let chartInstance = null;
+    let chartInstance:any = null;
  
     const initChart = () => {
       chartInstance = echarts.init(chartContainer.value);

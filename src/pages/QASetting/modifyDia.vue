@@ -17,11 +17,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { FormInstanceFunctions } from 'tdesign-vue-next/es/form/type';
-import type { qatype } from './type';
 import { MessagePlugin,FormProps } from 'tdesign-vue-next';
 import { updateQa,addQa} from '@/api/store'
 import type { StoreVist } from '@/api/model/storeModel';
 
+interface qatype {
+  question:string
+  answer:string
+}
 const emit = defineEmits(['fresh']);
 
 const emptyInit = () => ({
