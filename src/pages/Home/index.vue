@@ -8,7 +8,7 @@
       <t-col v-for="(item, index) in PANE_LIST_DATA" :key="index" :xs="6" :xl="4" :xxl="2">
         <t-card class="home-card" :bordered="false" :style="`border-bottom: 3px solid ${item.color};`">
           <div class="home-card__img">
-            <img :src="item.Icon" alt="" v-if="item.Icon">
+            <img :src="item.Icon" alt="" v-if="item.Icon" style="width: 45px;height: 45px;">
             <t-icon name="sneer" size="45" v-else/>
           </div>
           <div class="home-card__info">
@@ -136,4 +136,5 @@ onMounted(() => {
     
   }
 }
+.home-card__info{flex: 1;}
 </style>
