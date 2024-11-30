@@ -73,11 +73,12 @@ const getSearchData = (searchObj:any) => {
 };
 
 const getData = () => {
+  Loading.value=true;
   getShelfData({storeId:storeId.value}).then((res)=>{
     if(res.code===200&&res.rows) {
       ListData.value=res.rows
     }
-  })
+  }).finally(()=>{ Loading.value=false;})
 };
 const submitDel = () => {
   if(!opData||submiting.value) return;

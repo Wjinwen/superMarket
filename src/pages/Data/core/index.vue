@@ -1,15 +1,16 @@
 <template>
-  <div class="data-core-wrap">
+  <div class="data-core-wrap" v-loading="Loading">
     <searchFiled @search="getData"/>
-    <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">人流总量 {{total}}</div>
-    <t-row :gutter="[16, 16]">
-        <t-col v-for="i in 8" :key="i" :xs="6" :xl="4">
-          <t-card :bordered="false">
-            <span class="card-chart-title">呼叫人工次数</span>
-            <chart :option="options"/>
-          </t-card>
-        </t-col>
-      </t-row>
+    <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">人流量总数：{{ total }}次</div>
+    <t-row :gutter="[16, 16]" v-if="ListData.length&&!Loading">
+      <t-col v-for="(chart,index) in CHART_LIST_DATA" :key="index" :xs="6" :xl="4">
+        <t-card :bordered="false">
+          <span class="card-chart-title" :style="{background:chart.titleColor}">{{chart.title}}</span>
+          <chart :xAxis="xAxisData" :series="ListData.map((list)=>{return list[chart.code]})" :color="chart.color"/>
+        </t-card>
+      </t-col>
+    </t-row>
+    <div v-else>未查询到数据</div>
   </div>
 </template>
 
@@ -23,36 +24,27 @@ export default {
 import searchFiled from '@/components/searchFiled/index.vue';
 import chart from '@/components/chart/index.vue';
 import { getStoreDailyChart} from '@/api/store'
-import type { StoreVist } from '@/api/model/storeModel';
-import { ref } from 'vue';
-const options=ref({
-  xAxis: {
-    type: 'category',
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: [120, 200, 150, 80, 70, 110, 130],
-      type: 'bar',
-      label: {
-            show: true, // 显示数值
-            position: 'top' // 数值显示的位置
-        }
-    }
-  ]
-})
-const ListData=ref<StoreVist[]>([])
+import { ref,computed } from 'vue';
+import { CHART_LIST_DATA } from './constants';
+
+
+const ListData=ref<any[]>([])
 const total=ref<number|null>(null)
+const Loading=ref(false)
+
+const xAxisData = computed(() => {
+  return ListData.value.map((item)=>{return item.date});
+});
 const getData = (searchObj:any) => {
+  ListData.value=[];
+  Loading.value=true;
+  total.value=0;
   getStoreDailyChart({storeId:searchObj.shop,startDate:searchObj.timeRange[0],endDate:searchObj.timeRange[1]}).then((res)=>{
     if(res.code===200&&res.rows) {
       ListData.value=res.rows
       total.value=res.total
     }
-  })
+  }).finally(()=>{Loading.value=false;})
 };
 
 
@@ -60,6 +52,7 @@ const getData = (searchObj:any) => {
 
 <style lang="less" scoped>
 .data-core-wrap{
+  height: 100%;
   :deep(.t-card__body){
     padding: 16px 16px 0;
     height: 100%;
@@ -67,7 +60,6 @@ const getData = (searchObj:any) => {
   .card-chart-title{
     width: auto;
     padding: 4px 12px;
-    background: pink;
     border-radius: 12px;
     color: var(--td-font-white-1);
     margin-top: 12px;

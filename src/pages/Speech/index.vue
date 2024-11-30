@@ -1,5 +1,5 @@
 <template>
-  <div class="speech-wrap">
+  <div class="speech-wrap" v-loading="Loading">
     <div style="font-size: 18px;font-weight: 600;padding:0 8px; margin-bottom: 16px;display: flex;justify-content: space-between;">
       <div style="width: 30%;">场景描述</div>
       <div style="flex: 1;margin: 0 16px;">反应语言</div>
@@ -53,7 +53,7 @@ import modifyDia from './modifyDia.vue';
 
 const modifyDiaRef=ref()
 const delVisible=ref(false)
-
+const Loading=ref<Boolean>(false);
 
 const submitDel = () => {
   // request({

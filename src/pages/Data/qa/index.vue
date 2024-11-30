@@ -1,7 +1,7 @@
 <template>
-  <div class="data-qa-wrap">
+  <div class="data-qa-wrap" v-loading='Loading'>
     <searchFiled @search="getData"/>
-    <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">人流总量 {{ total }}</div>
+    <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">人流量总数：{{ total }}次</div>
     <div style="background: var(--td-bg-color-container);height: calc(100% - 100px);padding: 16px;">
       <div style="margin-bottom: 12px">对话记录</div>
       <div v-for="(list,index) in ListData" :key="index">
@@ -25,14 +25,16 @@ import { ref } from 'vue';
 
 const ListData=ref<QaHistoryItem[]>([])
 const total=ref<number|null>(null)
+const Loading=ref(false)
 const getData = (searchObj:any) => {
   total.value=0;
+  Loading.value=true;
   getStoreQaHistory({storeId:searchObj.shop,startDate:searchObj.timeRange[0],endDate:searchObj.timeRange[1]}).then((res)=>{
     if(res.code===200&&res.rows) {
       ListData.value=res.rows
       total.value=res.total
     }
-  })
+  }).finally(()=>{Loading.value=false;})
 };
 
 

@@ -5,12 +5,11 @@
       v-model="searchFiled.shop"
       :options="shopOptions"
       placeholder="请选择店铺"
-      clearable
       :keys="{ label: 'storeName', value: 'storeId' }"
     ></t-select>
    </div>
    <div class="search-timerange">
-      <t-date-range-picker v-if="showDateRange" v-model="searchFiled.timeRange" :presets="timePresets" />
+      <t-date-range-picker v-if="showDateRange" v-model="searchFiled.timeRange" clearable :presets="timePresets" />
     </div>
     <div style='margin-left:32px;' v-if='showBtn'>
       <t-button @click='subEmit'>查询</t-button>

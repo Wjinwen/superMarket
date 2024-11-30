@@ -9,14 +9,18 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 export default {
   name: 'EChart',
   props: {
-    option: {
-      type: Object,
+    xAxis: {
+      type: Array,
       required: true
     },
-    // width: {
-    //   type: String,
-    //   default: '600px'
-    // },
+    series:{
+      type: Array,
+      required: true
+    },
+    color: {
+      type: String,
+      default: 'pink'
+    },
     height: {
       type: String,
       default: '300px'
@@ -25,13 +29,44 @@ export default {
   setup(props) {
     const chartContainer = ref(null);
     let chartInstance:any = null;
- 
+    const options=ref({
+      color:'',
+      xAxis: {
+        type: 'category',
+        data:[]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      grid: {
+        left: '5%',
+        right: '5%',
+        bottom: '5%',
+        containLabel: true
+      },
+      tooltip: {
+        trigger: 'axis',
+      },
+      series: [
+        {
+          data: [],
+          type: 'bar',
+          label: {
+            show: true, // 显示数值
+            position: 'top' // 数值显示的位置
+          }
+        }
+      ]
+    })
     const initChart = () => {
       chartInstance = echarts.init(chartContainer.value);
-      chartInstance.setOption(props.option);
+      chartInstance.setOption(options.value);
     };
  
     onMounted(() => {
+      options.value.xAxis.data=props.xAxis
+      options.value.color=props.color
+      options.value.series[0].data=props.series
       initChart();
       window.addEventListener('resize', chartInstance.resize);
     });
@@ -41,7 +76,7 @@ export default {
       chartInstance.dispose();
     });
  
-    watch(() => props.option, (newOption) => {
+    watch(() => options.value, (newOption) => {
       if (chartInstance) {
         chartInstance.setOption(newOption);
       }

@@ -21,6 +21,7 @@
           size="large"
           :type="showPsw ? 'text' : 'password'"
           clearable
+          @enter="onSubmit"
           :placeholder="`${t('pages.login.input.password')}：admin`"
         >
           <template #prefix-icon>

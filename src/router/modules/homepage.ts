@@ -43,7 +43,7 @@ export default [
         component: () => import('@/pages/Data/core/index.vue'),
         meta: {
           title: {
-            zh_CN: '核心数据doing',
+            zh_CN: '核心数据',
             en_US: 'Core Data',
           },
         },
