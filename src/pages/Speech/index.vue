@@ -60,11 +60,16 @@ const modifyDiaRef=ref()
 const delVisible=ref(false);
 const submiting=ref(false)
 const Loading=ref<Boolean>(false);
-const tableData=ref<actionList[]>([]);
+const tableData=ref<actionList[]|null>(null);
 const baseData=ref([]);
 const playAudioRef=ref(null)
-const initactionData=() => ([{actionId: 1,actionName: "进门",list:[]},{actionId: 2,actionName: "出门",list:[]},{actionId: 3,actionName: "付款中",list:[]}]);
+const initActionData=()=>{
+  return [{actionId: 1,actionName: "进门"},
+  {actionId: 2,actionName: "出门"},
+  {actionId: 3,actionName: "付款中"}]
+}
 const opData=ref<actionhandlItem|null>(null)
+
 const submitDel = () => {
   if(!opData||submiting.value) return;
   submiting.value=true;
@@ -79,13 +84,16 @@ const submitDel = () => {
   })
 };
 const getFormateData = (arr:actionhandlItem[]) => {
-  tableData.value=initactionData()
-  arr.forEach((item)=>{
+  tableData.value=initActionData()
+  arr.forEach((item:actionhandlItem)=>{
     if(item.actionId===1){
+      if(!tableData.value[0].list) tableData.value[0].list=[]
       tableData.value[0].list.push(item)
     }else if(item.actionId===2){
+      if(!tableData.value[1].list) tableData.value[1].list=[]
       tableData.value[1].list.push(item)
     }else{
+      if(!tableData.value[2].list) tableData.value[2].list=[]
       tableData.value[2].list.push(item)
     }
   })

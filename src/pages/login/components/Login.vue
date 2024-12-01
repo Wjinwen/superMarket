@@ -9,7 +9,7 @@
   >
     <template v-if="type == 'password'">
       <t-form-item name="username">
-        <t-input v-model="formData.username" size="large" :placeholder="`${t('pages.login.input.account')}：admin`">
+        <t-input v-model="formData.username" size="large" :placeholder="`${t('pages.login.input.account')}`">
           <template #prefix-icon>
             <t-icon name="user" />
           </template>
@@ -22,7 +22,7 @@
           :type="showPsw ? 'text' : 'password'"
           clearable
           @enter="onSubmit"
-          :placeholder="`${t('pages.login.input.password')}：admin`"
+          :placeholder="`${t('pages.login.input.password')}`"
         >
           <template #prefix-icon>
             <t-icon name="lock-on" />
@@ -51,8 +51,8 @@ import { useUserStore } from '@/store';
 const userStore = useUserStore();
 
 const INITIAL_DATA = {
-  username: 'admin',
-  password: 'admin123',
+  username: '',
+  password: '',
 };
 
 const FORM_RULES: Record<string, FormRule[]> = {

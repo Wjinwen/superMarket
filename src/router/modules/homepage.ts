@@ -66,7 +66,7 @@ export default [
     component: Layout,
     meta: {
       title: {
-        zh_CN: '设备控制todo',
+        zh_CN: '设备控制',
         en_US: 'Device Control',
       },
       icon: shallowRef(DeviceIcon),
@@ -105,7 +105,7 @@ export default [
     component: Layout,
     meta: {
       title: {
-        zh_CN: 'IP声音试听todo',
+        zh_CN: 'IP声音试听',
         en_US: 'IP Sound Trial',
       },
       icon: shallowRef(SoundIcon),

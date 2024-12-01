@@ -88,5 +88,5 @@ export interface actionhandlItem {
 export interface actionList {
   actionId:number,
   actionName: string,
-  list:Array<actionhandlItem>
+  list?:any
 }
