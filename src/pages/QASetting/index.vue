@@ -12,6 +12,13 @@
           </div>
         </div>
       </template>
+      <t-pagination
+        :total="total"
+        v-model="current" 
+        v-model:page-size="pageSize"
+        @page-size-change="onPageSizeChange"
+        @current-change="onCurrentChange"
+      />
     </div>
     <modifyDia ref="modifyDiaRef" @fresh='getData'/>
     <t-dialog
@@ -35,7 +42,7 @@ import qaCard from '@/components/qaCard/index.vue';
 import modifyDia from './modifyDia.vue';
 import { getQaList,delQa} from '@/api/store'
 import type { QaItem } from '@/api/model/storeModel';
-import { MessagePlugin } from 'tdesign-vue-next';
+import { MessagePlugin,PaginationProps } from 'tdesign-vue-next';
 
 const modifyDiaRef=ref()
 const delVisible=ref(false)
@@ -43,6 +50,10 @@ const submiting=ref(false)
 const Loading=ref<Boolean>(false);
 const tableData=ref<QaItem[]>([])
 const opData=ref<QaItem|null>(null)
+
+const total=ref<number|null>(null)
+const current = ref(1);
+const pageSize = ref(10);
 
 const submitDel = () => {
   if(!opData||submiting.value) return;
@@ -60,15 +71,28 @@ const submitDel = () => {
 
 
 const getData = () => {
+  if(Loading.value)return;
+  total.value=0;
   Loading.value=true;
-  getQaList().then((res)=>{
-    if(res.code===200&&res.rows) tableData.value=res.rows
+  getQaList({pageSize:pageSize.value,pageNum:current.value}).then((res)=>{
+    if(res.code===200&&res.rows) {
+      tableData.value=res.rows
+      total.value=res.total
+    }
   }).finally(()=>{Loading.value=false})
 };
 
 onMounted(() => {
   getData()
 });
+
+const onPageSizeChange: PaginationProps['onPageSizeChange'] = (size) => {
+  current.value=1;
+  getData()
+};
+const onCurrentChange: PaginationProps['onCurrentChange'] = (index, pageInfo) => {
+  getData()
+};
 
 </script>
 

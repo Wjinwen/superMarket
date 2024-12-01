@@ -50,9 +50,10 @@ export function getStoreQaHistory(params:any) {
   });
 }
 
-export function getQaList() {
+export function getQaList(params:any) {
   return request.get<getListResult>({
-    url: Api.getQaList
+    url: Api.getQaList,
+    params
   });
 }
 

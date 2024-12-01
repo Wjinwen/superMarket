@@ -19,6 +19,14 @@
       </div>
       </template>
     </t-table>
+    <t-pagination
+    style="margin-top: 16px;"
+      :total="total"
+      v-model="current" 
+      v-model:page-size="pageSize"
+      @page-size-change="onPageSizeChange"
+      @current-change="onCurrentChange"
+    />
     <modifyDia ref="modifyDiaRef"  @fresh='getData'/>
     <t-dialog header="删除" v-model:visible="delVisible" :closeOnOverlayClick="false" @confirm="submitDel">
       <div>确认删除货架【{{opData?.shelfName}}】吗？</div>
@@ -35,7 +43,7 @@ export default {
 <script setup lang="tsx">
 import searchFiled from '@/components/searchFiled/index.vue';
 import { ref } from 'vue';
-import { TableProps,MessagePlugin} from 'tdesign-vue-next';
+import { TableProps,MessagePlugin,PaginationProps} from 'tdesign-vue-next';
 import { getShelfData,delShelfData} from '@/api/store'
 import type { shelfDataItem } from '@/api/model/storeModel';
 import dayjs from 'dayjs';
@@ -67,17 +75,23 @@ const storeId=ref<number|null>(null)
 const submiting=ref(false)
 const Loading=ref<Boolean>(false);
 
+const total=ref<number|null>(null)
+const current = ref(1);
+const pageSize = ref(10);
+
 const getSearchData = (searchObj:any) => {
   storeId.value=searchObj.shop
   getData()
 };
 
 const getData = () => {
-  if(!storeId.value) return;
+  if(!storeId.value||Loading.value) return;
+  total.value=0;
   Loading.value=true;
-  getShelfData({storeId:storeId.value}).then((res)=>{
+  getShelfData({storeId:storeId.value,pageSize:pageSize.value,pageNum:current.value}).then((res)=>{
     if(res.code===200&&res.rows) {
       ListData.value=res.rows
+      total.value=res.total
     }
   }).finally(()=>{ Loading.value=false;})
 };
@@ -94,6 +108,15 @@ const submitDel = () => {
     submiting.value=false;
   })
 };
+
+const onPageSizeChange: PaginationProps['onPageSizeChange'] = (size) => {
+  current.value=1;
+  getData()
+};
+const onCurrentChange: PaginationProps['onCurrentChange'] = (index, pageInfo) => {
+  getData()
+};
+
 </script>
 
 <style lang="less" scoped>
@@ -130,13 +153,13 @@ const submitDel = () => {
   }
 }
 .home-panel-detail{
+  height: 100%;
   :deep(.t-table--striped:not(.t-table--header-fixed) > .t-table__content > table > tbody > tr:nth-of-type(odd):not(.t-table__expanded-row)) {
     background: #f2f3ff;
   }
   :deep(.t-table__header){
     tr{background: var(--td-brand-color);}
     th{font-weight: 600;color: var(--td-gray-color-14);}
-    
   }
 }
 </style>
