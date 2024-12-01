@@ -73,6 +73,7 @@ const getSearchData = (searchObj:any) => {
 };
 
 const getData = () => {
+  if(!storeId.value) return;
   Loading.value=true;
   getShelfData({storeId:storeId.value}).then((res)=>{
     if(res.code===200&&res.rows) {
@@ -83,10 +84,12 @@ const getData = () => {
 const submitDel = () => {
   if(!opData||submiting.value) return;
   submiting.value=true;
-  delShelfData(opData.value.dataId).then(() => {
-    MessagePlugin.success('删除成功');
-    delVisible.value = false;
-    getData()
+  delShelfData(opData.value.dataId).then((res) => {
+    if(res.code===200){
+      MessagePlugin.success('删除成功');
+      delVisible.value = false;
+      getData()
+    }else  MessagePlugin.error('删除失败')
   }).finally(()=>{
     submiting.value=false;
   })

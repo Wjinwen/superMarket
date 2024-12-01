@@ -47,10 +47,12 @@ const opData=ref<QaItem|null>(null)
 const submitDel = () => {
   if(!opData||submiting.value) return;
   submiting.value=true;
-  delQa(opData.value.qaId).then(() => {
-    MessagePlugin.success('删除成功');
-    delVisible.value = false;
-    getData()
+  delQa(opData.value.qaId).then((res) => {
+    if(res.code===200){
+      MessagePlugin.success('删除成功');
+      delVisible.value = false;
+      getData()
+    }else  MessagePlugin.error('删除失败')
   }).finally(()=>{
     submiting.value=false;
   })

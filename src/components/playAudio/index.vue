@@ -21,6 +21,10 @@ const props = defineProps({
   iconColor:{
     type: String,
     default: 'var(--td-brand-color)',
+  },
+  autoplay:{
+    type: Boolean,
+    default: false,
   }
 });
 const duration = ref(0);
@@ -29,8 +33,8 @@ const isPlaying = ref(false);
 
 const loaded = () => {
   if (audioPlayer.value) {
-    console.log('===audioPlayer.value',audioPlayer.value )
     duration.value = Math.floor(audioPlayer.value.duration);
+    if(props.autoplay) playHandler()
     emit('audioLoaded',audioPlayer.value)
   }
 };
@@ -48,4 +52,5 @@ const pauseAudio = () => {
   audioPlayer.value.pause();
 };
 
+defineExpose({ playHandler });
 </script>

@@ -73,3 +73,20 @@ export interface shelfDataItem {
   productList:string
 }
 
+export interface actionhandlItem {
+  createBy?: string,
+  createTime?: string,
+  updateBy?: string,
+  updateTime?: string,
+  remark?: string,
+  handleId?:number
+  speakWord:string
+  speakAudio?:string|null
+  actionId?:number,
+  actionName: string,
+}
+export interface actionList {
+  actionId:number,
+  actionName: string,
+  list:Array<actionhandlItem>
+}

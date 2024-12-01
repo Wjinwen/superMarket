@@ -5,15 +5,15 @@ const Api = {
   getStoreList: '/store/info/list', //店铺列表
   getStoreTop10:'/store/dailyData/listByIdAndDateRangeTop10', //首页 店铺流量top10列表
   getAllStoreVistor:'/store/dailyData/selectTotalDailyDataByDate', //首页 全国店铺人流量
-
   getStoreDailyChart:'/store/dailyData/listByIdAndDateRange', //门店数据-核心 chart图标数据
   getStoreQaHistory:'/store/storeChat/list', //门店数据-问答数据
-
   getQaList:'/store/qa/list', //用户问题设置 话术列表
   operateQa:'/store/qa',
-
   getShelfData:'/store/shelfData/list', //商品货架分类
   opShelfData:'/store/shelfData', 
+  getActionList:'/store/handle/list', //场景动作列表
+  opActionData:'/store/handle', 
+  getAudio:'/store/handle', //获取动作拼音
 };
 
 export function getStoreList() {
@@ -82,6 +82,7 @@ export function getShelfData(params:any) {
     params
   });
 }
+
 export function delShelfData(dataIds:number) {
   return request.delete<getListResult>({
     url: `${Api.opShelfData}/${dataIds}`,
@@ -99,5 +100,37 @@ export function addShelfData(data:any) {
   return request.post<getListResult>({
     url: Api.opShelfData,
     data
+  });
+}
+
+export function getActionList() {
+  return request.get<getListResult>({
+    url: Api.getActionList,
+  });
+}
+export function delActionData(handleIds:number) {
+  return request.delete<getListResult>({
+    url: `${Api.opActionData}/${handleIds}`,
+  });
+}
+
+export function updateActionData(data:any) {
+  return request.put<getListResult>({
+    url: Api.opActionData,
+    data
+  });
+}
+
+export function addActionData(data:any) {
+  return request.post<getListResult>({
+    url: Api.opActionData,
+    data
+  });
+}
+
+export function getAudio(handleId:number) {
+  return request.get<getListResult>({
+    url: `${Api.getAudio}/${handleId}`,
+    params:{handleId}
   });
 }

@@ -92,7 +92,7 @@ export default [
     component: Layout,
     meta: {
       title: {
-        zh_CN: '场景话语todo',
+        zh_CN: '场景话语',
         en_US: 'Scene Speech',
       },
       icon: shallowRef(MapSettingIcon),

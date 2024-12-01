@@ -63,17 +63,21 @@ const submit = () => {
     if(res === true) {
       submiting.value=true;
       if(opType.value==='add'){
-        addQa(params).then(()=>{
-          MessagePlugin.success('添加成功')
-          emit('fresh')
-          visible.value = false;
+        addQa(params).then((res)=>{
+          if(res.code===200){
+            MessagePlugin.success('添加成功')
+            emit('fresh')
+            visible.value = false;
+          }else  MessagePlugin.error('添加失败')
         }).finally(()=>{submiting.value=false;})
       }
       else{
-        updateQa(params).then(()=>{
-          MessagePlugin.success('修改成功')
-          emit('fresh')
-          visible.value = false;
+        updateQa(params).then((res)=>{
+          if(res.code===200){
+            MessagePlugin.success('修改成功')
+            emit('fresh')
+            visible.value = false;
+          }else  MessagePlugin.error('修改失败')
         }).finally(()=>{submiting.value=false;})
       }
     }
