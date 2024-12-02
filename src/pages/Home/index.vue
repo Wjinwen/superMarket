@@ -5,7 +5,7 @@
       <t-date-picker v-model="defaulTime" clearable :disableDate="{after: dayjs().format()}" :format="'YYYY-MM-DD'" @change="getData"/>
     </div>
     <t-row :gutter="[16, 16]">
-      <t-col v-for="(item, index) in PANE_LIST_DATA" :key="index" :xs="6" :xl="4" :xxl="2">
+      <t-col v-for="(item, index) in PANE_LIST_DATA" :key="index" :xs="6" :xl="4" :xxl="3">
         <t-card class="home-card" :bordered="false" :style="`border-bottom: 3px solid ${item.color};`">
           <div class="home-card__img">
             <img style="width: 45px;height: 45px;" src="@/assets/icon_all.png" v-if="item.code==='customerCount'"/>

@@ -18,7 +18,7 @@
             {{ handle.speakWord }}
           </div>
           <div class="op-wrap" style="margin-right: 24px;">
-            <div style="margin-right: 16px;cursor: pointer;" @click="()=>{modifyDiaRef.show(handle,'update')}" >修改</div>
+            <!-- <div style="margin-right: 16px;cursor: pointer;" @click="()=>{modifyDiaRef.show(handle,'update')}" >修改</div> -->
             <div style="color: var(--td-error-color);cursor: pointer;" @click="()=>{opData=handle;delVisible=true}" >删除</div>
           </div>
           <div style="width: 120px;">
@@ -28,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div style="width:calc(100% - 200px);display: flex;justify-content: center;">
+        <div style="width:calc(100% - 180px);display: flex;justify-content: center;">
           <t-button @click="()=>{modifyDiaRef.show(action,'add')}">新增</t-button>
         </div>
       </div>

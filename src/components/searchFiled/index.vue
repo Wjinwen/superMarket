@@ -9,7 +9,7 @@
     ></t-select>
    </div>
    <div class="search-timerange">
-      <t-date-range-picker v-if="showDateRange" v-model="searchFiled.timeRange" clearable :presets="timePresets" />
+      <t-date-range-picker v-if="showDateRange" v-model="searchFiled.timeRange" :presets="timePresets" />
     </div>
     <div style='margin-left:32px;' v-if='showBtn'>
       <t-button @click='subEmit'>查询</t-button>
@@ -25,7 +25,7 @@ export default {
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue';
-import { SelectProps,DateRangePickerProps } from 'tdesign-vue-next';
+import { SelectProps,DateRangePickerProps,MessagePlugin } from 'tdesign-vue-next';
 import dayjs from 'dayjs';
 import { getStoreList} from '@/api/store'
 import type { StoreItem } from '@/api/model/storeModel';
@@ -50,6 +50,14 @@ watch(() => searchFiled, (val) => {
 }, { deep:true });
 
 const subEmit=() => {
+  if(!searchFiled.value.shop){
+    MessagePlugin.error('请选择店铺')
+    return
+  }
+  if(props.showDateRange&&!searchFiled.value.timeRange.length){
+    MessagePlugin.error('请选择查询时间范围')
+    return
+  }
   emit('search',searchFiled.value);
 };
 

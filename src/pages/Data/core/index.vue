@@ -29,21 +29,21 @@ import { CHART_LIST_DATA } from './constants';
 
 
 const ListData=ref<any[]>([])
-const total=ref<number|null>(null)
 const Loading=ref(false)
 
 const xAxisData = computed(() => {
   return ListData.value.map((item)=>{return item.date});
 });
+
+const total = computed(() => {
+  return ListData.value.reduce((accumulator, currentValue) => accumulator + currentValue.customerCount, 0);
+});
+
 const getData = (searchObj:any) => {
   ListData.value=[];
   Loading.value=true;
-  total.value=0;
   getStoreDailyChart({storeId:searchObj.shop,startDate:searchObj.timeRange[0],endDate:searchObj.timeRange[1]}).then((res)=>{
-    if(res.code===200&&res.rows) {
-      ListData.value=res.rows
-      total.value=res.total
-    }
+    if(res.code===200&&res.rows) ListData.value=res.rows
   }).finally(()=>{Loading.value=false;})
 };
 
