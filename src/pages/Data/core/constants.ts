@@ -1,5 +1,3 @@
-import { Title } from "tdesign-vue-next";
-
 export const CHART_LIST_DATA = [
   {
     code:'customerCount',

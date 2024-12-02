@@ -52,5 +52,5 @@ const pauseAudio = () => {
   audioPlayer.value.pause();
 };
 
-defineExpose({ playHandler });
+defineExpose({ playHandler,playAudio });
 </script>

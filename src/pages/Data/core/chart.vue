@@ -1,25 +1,17 @@
 <template>
-  <div ref="chartContainer" :style="{ width: '100%', height: height }"></div>
+    <div ref="chartContainer" :data="data" :style="{ width: '100%', height: height }"></div>
 </template>
  
-<script lang="tsx">
-import * as echarts from 'echarts';
+<script lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue';
- 
+import * as echarts from 'echarts';
+
 export default {
-  name: 'EChart',
+  name: 'Mychart',
   props: {
-    xAxis: {
-      type: Array,
-      required: true
-    },
-    series:{
-      type: Array,
-      required: true
-    },
-    color: {
-      type: String,
-      default: 'pink'
+    data: {
+      type: Object,
+      required: true,
     },
     height: {
       type: String,
@@ -62,13 +54,15 @@ export default {
       chartInstance = echarts.init(chartContainer.value);
       chartInstance.setOption(options.value);
     };
- 
+    const setOption = () => {
+      options.value.xAxis.data=props.data.xAxis
+      options.value.color=props.data.color||'pink'
+      options.value.series[0].data=props.data.series
+    };
     onMounted(() => {
-      options.value.xAxis.data=props.xAxis
-      options.value.color=props.color
-      options.value.series[0].data=props.series
+      setOption()
       initChart();
-      window.addEventListener('resize', chartInstance.resize);
+      window.addEventListener('resize', chartInstance.resize,{ passive: true });
     });
  
     onUnmounted(() => {
@@ -76,9 +70,10 @@ export default {
       chartInstance.dispose();
     });
  
-    watch(() => options.value, (newOption) => {
+    watch(() => props.data, () => {
       if (chartInstance) {
-        chartInstance.setOption(newOption);
+        setOption()
+        chartInstance.setOption(options.value);
       }
     }, { deep: true });
  

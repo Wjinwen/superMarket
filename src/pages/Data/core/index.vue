@@ -6,7 +6,7 @@
       <t-col v-for="(chart,index) in CHART_LIST_DATA" :key="index" :xs="6" :xl="4">
         <t-card :bordered="false">
           <span class="card-chart-title" :style="{background:chart.titleColor}">{{chart.title}}</span>
-          <chart :xAxis="xAxisData" :series="ListData.map((list)=>{return list[chart.code]})" :color="chart.color"/>
+          <myChart :data="{xAxis:xAxisData,series:ListData.map((list)=>{return list[chart.code]}),color:chart.color}"></myChart>
         </t-card>
       </t-col>
     </t-row>
@@ -22,7 +22,7 @@ export default {
 
 <script setup lang="ts">
 import searchFiled from '@/components/searchFiled/index.vue';
-import chart from '@/components/chart/index.vue';
+import myChart from './chart.vue';
 import { getStoreDailyChart} from '@/api/store'
 import { ref,computed } from 'vue';
 import { CHART_LIST_DATA } from './constants';

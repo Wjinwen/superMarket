@@ -8,8 +8,14 @@
       <t-col v-for="(item, index) in PANE_LIST_DATA" :key="index" :xs="6" :xl="4" :xxl="2">
         <t-card class="home-card" :bordered="false" :style="`border-bottom: 3px solid ${item.color};`">
           <div class="home-card__img">
-            <img :src="item.Icon" alt="" v-if="item.Icon" style="width: 45px;height: 45px;">
-            <t-icon name="sneer" size="45" v-else/>
+            <img style="width: 45px;height: 45px;" src="@/assets/icon_all.png" v-if="item.code==='customerCount'"/>
+            <img style="width: 45px;height: 45px;" src="@/assets/icon_service.png" v-if="item.code==='manualServiceCount'"/>
+            <img style="width: 45px;height: 45px;" src="@/assets/icon_robot.png" v-if="item.code==='aiChatCount'"/>
+            <img style="width: 45px;height: 45px;" src="@/assets/icon_child.png" v-if="item.code==='childrenCount'"/>
+            <img style="width: 45px;height: 45px;" src="@/assets/icon_teenager.png" v-if="item.code==='teenagerCount'"/>
+            <img style="width: 45px;height: 45px;" src="@/assets/icon_younger.png" v-if="item.code==='youngCount'"/>
+            <img style="width: 45px;height: 45px;" src="@/assets/icon_mild.png" v-if="item.code==='middleAgeCount'"/>
+            <img style="width: 45px;height: 45px;" src="@/assets/icon_older.png" v-if="item.code==='oldCount'"/>
           </div>
           <div class="home-card__info">
             <span class="home-card__info__number">{{ (vistorList&&vistorList[item.code])||'-' }}</span>

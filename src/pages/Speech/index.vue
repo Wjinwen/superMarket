@@ -24,7 +24,7 @@
           <div style="width: 120px;">
             <div class="gray-item" @click="getHandleAudio(handle.handleId)" style="flex: 1;display: flex;justify-content: space-between;color: var(--td-gray-color-7);cursor: pointer;">
                点击试听
-               <playAudio :audioSrc="handle.speakAudio" ref="playAudioRef" autoplay/>
+               <playAudio :audioSrc="handle.speakAudio" autoplay ref="playAudioRef"/>
             </div>
           </div>
         </div>
@@ -119,7 +119,10 @@ const getHandleAudio = async (handleId:number) => {
         return
       }
     })
+    return;
   }
+  const index=baseData.value.findIndex((item)=>{return item.handleId===handleId})
+  playAudioRef.value[index].playAudio()
 };
 onMounted(() => {
   getData()
