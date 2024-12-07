@@ -1,7 +1,7 @@
 <template>
   <div>
     <audio ref="audioPlayer" :src="audioSrc" @loadedmetadata="loaded" controls style="display: none;"></audio>
-    <div @click="playHandler" style="cursor: pointer;">
+    <div @click="playAudio" style="cursor: pointer;">
       <slot name="btn">
         <t-icon name="play-circle-filled" size="18" :style="{'color': iconColor}"/>
       </slot>
