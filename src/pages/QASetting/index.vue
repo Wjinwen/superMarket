@@ -2,7 +2,10 @@
   <div class="qa-setting-wrap" v-loading='Loading'>
     <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">话术</div>
     <div style="background: var(--td-bg-color-container);height: calc(100% - 36px);padding: 16px;">
-      <t-button @click="()=>{modifyDiaRef.show()}" >新建话术</t-button>
+      <div style="display: flex;justify-content: space-between;">
+        <searchFiled @search="getSearchData" :showDateRange='false' :showBtn="false" style="margin:0;"/>
+        <t-button @click="()=>{modifyDiaRef.show('',storeId)}" >新建话术</t-button>
+      </div>
       <template v-for="(qa,index) in tableData" :key="index">
         <div style="display: flex;align-items: center;margin: 16px 0;">
           <qaCard style="flex:1;" :Q="qa.question" :A="qa.answer"/>
@@ -37,7 +40,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { onMounted,ref } from 'vue';
+import searchFiled from '@/components/searchFiled/index.vue';
+import { ref } from 'vue';
 import qaCard from '@/components/qaCard/index.vue';
 import modifyDia from './modifyDia.vue';
 import { getQaList,delQa} from '@/api/store'
@@ -50,7 +54,7 @@ const submiting=ref(false)
 const Loading=ref<Boolean>(false);
 const tableData=ref<QaItem[]>([])
 const opData=ref<QaItem|null>(null)
-
+const storeId=ref<number|null>(null)
 const total=ref<number|null>(null)
 const current = ref(1);
 const pageSize = ref(10);
@@ -69,22 +73,25 @@ const submitDel = () => {
   })
 };
 
+const getSearchData = (searchObj:any) => {
+  storeId.value = searchObj.shop;
+  console.log('==',searchObj,storeId.value)
+  getData()
+};
 
 const getData = () => {
   if(Loading.value)return;
   total.value=0;
   Loading.value=true;
-  getQaList({pageSize:pageSize.value,pageNum:current.value}).then((res)=>{
+  console.log(storeId.value,'==');
+  
+  getQaList({storeId:storeId.value,pageSize:pageSize.value,pageNum:current.value}).then((res)=>{
     if(res.code===200&&res.rows) {
       tableData.value=res.rows
       total.value=res.total
     }
   }).finally(()=>{Loading.value=false})
 };
-
-onMounted(() => {
-  getData()
-});
 
 const onPageSizeChange: PaginationProps['onPageSizeChange'] = (size) => {
   current.value=1;

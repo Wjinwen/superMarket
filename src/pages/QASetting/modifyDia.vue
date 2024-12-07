@@ -24,6 +24,7 @@ import type { StoreVist } from '@/api/model/storeModel';
 interface qatype {
   question:string
   answer:string
+  storeId?:number
 }
 const emit = defineEmits(['fresh']);
 
@@ -44,7 +45,7 @@ const rules: FormProps['rules'] = {
   answer: [{required: true,message: '回答必填',type: 'error',trigger: 'blur',}],
 }
 
-const show = (val?:qatype) => { 
+const show = (val?:qatype,storeId?:number) => { 
   visible.value = true;
   if(val) {
     opType.value = 'update';
@@ -52,6 +53,7 @@ const show = (val?:qatype) => {
   } else {
     opType.value = 'add';
     data.value = emptyInit();
+    data.value.storeId=storeId
   }
 };
 const submit = () => {

@@ -85,7 +85,7 @@ const getSearchData = (searchObj:any) => {
 };
 
 const getData = () => {
-  if(!storeId.value||Loading.value) return;
+  if(Loading.value) return;
   total.value=0;
   Loading.value=true;
   getShelfData({storeId:storeId.value,pageSize:pageSize.value,pageNum:current.value}).then((res)=>{

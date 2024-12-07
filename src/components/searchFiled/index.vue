@@ -46,7 +46,7 @@ const searchFiled= ref({
 
 watch(() => searchFiled, (val) => {
   if (props.showBtn) return;
-  emit('search',val);
+  emit('search',val.value);
 }, { deep:true });
 
 const subEmit=() => {
