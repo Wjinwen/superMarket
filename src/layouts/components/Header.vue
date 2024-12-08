@@ -21,7 +21,7 @@
           <!-- <search v-if="layout !== 'side'" :layout="layout" /> -->
 
           <!-- 全局通知 -->
-          <!-- <notice /> -->
+          <notice />
 
           <!-- <t-tooltip placement="bottom" :content="t('layout.header.code')">
             <t-button theme="default" shape="square" variant="text" @click="navToGitHub">
@@ -47,7 +47,7 @@
               ></t-dropdown-menu
             >
           </t-dropdown>-->
-          <div style='color:var(--td-text-color-anti);cursor: pointer;' @click="handleLogout">退出</div>
+          <div style='color:var(--td-text-color-anti);cursor: pointer;margin-left:24px;' @click="handleLogout">退出</div>
           <!-- <t-dropdown :min-column-width="120" trigger="click">
             <template #dropdown>
               <t-dropdown-menu>
@@ -93,7 +93,7 @@ import { useSettingStore, useUserStore } from '@/store';
 import type { MenuRoute, ModeType } from '@/types/interface';
 
 import MenuContent from './MenuContent.vue';
-// import Notice from './Notice.vue';
+import Notice from './Notice.vue';
 // import Search from './Search.vue';
 
 const props = defineProps({
