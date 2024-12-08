@@ -13,7 +13,9 @@ const Api = {
   opShelfData:'/store/shelfData', 
   getActionList:'/store/handle/list', //场景动作列表
   opActionData:'/store/handle', 
-  getAudio:'/store/handle', //获取动作拼音
+  getAudio:'/store/handle', //获取动作音频
+  getCallList:'/store/sotreManualServiceLog/listUnsolved', //获取未处理的消息列表
+  updateCall:'/store/sotreManualServiceLog/solveCallManualService', //处理消息
 };
 
 export function getStoreList() {
@@ -133,5 +135,18 @@ export function getAudio(handleId:number) {
   return request.get<getListResult>({
     url: `${Api.getAudio}/${handleId}`,
     params:{handleId}
+  });
+}
+
+export function getCallList() {
+  return request.get<getListResult>({
+    url: Api.getCallList,
+  });
+}
+
+export function updateCall(data:any) {
+  return request.put<getListResult>({
+    url: Api.updateCall,
+    data
   });
 }

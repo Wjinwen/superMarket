@@ -1,16 +1,16 @@
 <template>
   <t-popup expand-animation placement="bottom-right" trigger="click" v-model:visible='popVisible'>
     <template #content>
-      <div class="header-msg">
+      <div class="header-msg" v-loading='loading'>
         <div class="header-msg-top">
           <p>{{ t('layout.notice.title') }}</p>
         </div>
-        <t-list v-if="unreadMsg.length > 0" class="narrow-scrollbar" :split="false">
-          <t-list-item v-for="(item, index) in unreadMsg" :key="index" @click="()=>{popVisible=false;DialogPluginConfirm({})}">
+        <t-list v-if="total > 0" class="narrow-scrollbar" :split="false">
+          <t-list-item v-for="(item, index) in unreadMsg" :key="index" @click="()=>{popVisible=false;DialogPluginConfirm(item)}">
             <div>
-              <p class="msg-content">{{ item.content }}</p>
+              <p class="msg-content">{{ item.storeName }}在呼叫人工</p>
             </div>
-            <p class="msg-time">{{ item.date }}</p>
+            <p class="msg-time">{{ item.createTime }}</p>
           </t-list-item>
         </t-list>
         <div v-else class="empty-list">
@@ -19,7 +19,7 @@
         </div>
       </div>
     </template>
-    <t-badge :count="unreadMsg.length" :offset="[4, 4]">
+    <t-badge :count="total" :offset="[4, 4]">
       <div style="height:32px;width:32px;line-height:32px;text-align: center;cursor: pointer;">
         <t-icon name="notification" style="color:white"/>
       </div>
@@ -31,19 +31,32 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
-import { onMounted,onUnmounted,ref } from 'vue';
+import { onMounted,onUnmounted,ref,watch } from 'vue';
 import { t } from '@/locales';
-import { useNotificationStore } from '@/store';
-import type { NotificationItem } from '@/types/interface';
 import Socket from '@/utils/ws';
-import { DialogPlugin } from 'tdesign-vue-next';
-const router = useRouter();
-const store = useNotificationStore();
-const { msgData, unreadMsg } = storeToRefs(store);
+import { DialogPlugin,MessagePlugin } from 'tdesign-vue-next';
+import { getCallList,updateCall} from '@/api/store'
+import type { callItem } from '@/api/model/storeModel';
 
-const popVisible=ref(false)
+const popVisible=ref(false);
+const loading=ref(false);
+const total=ref(0);
+const unreadMsg=ref<callItem[]>([])
+
+watch(() => popVisible.value, (val) => {
+  if(val) getData()
+});
+
+const getData = () => {
+  loading.value=true;
+  getCallList().then((res)=>{
+    if(res.code===200) {
+      unreadMsg.value=res.rows
+      total.value=res.rows.length
+    }
+  }).finally(()=>{loading.value=false;})
+}
+
 const exitWs = new Socket(`ws://120.25.125.33:8080/api/websocket/erp/${Math.random()}`, message => {
   const msg=JSON.parse(message)
   console.log('message==websocket',msg)
@@ -59,16 +72,16 @@ const DialogPluginConfirm = (msg:any) => {
     cancelBtn: '隐藏右上角',
     closeOnOverlayClick:false,
     closeBtn:false,
-    onConfirm: ({ e }) => {
-      console.log('confirm button has been clicked!');
-      console.log('e: ', e);
-      // 请求成功后，销毁弹框
-      confirmDia.destroy();
+    onConfirm: async ({ e }) => {
+      const res=await updateCall({"callId": msg.callId})
+      if(res.code===200) {
+        total.value=total.value-1;
+          // 请求成功后，销毁弹框
+        confirmDia.destroy();
+      }
     },
     onClose: ({ e, trigger }) => {
-      console.log('e: ', e);
-      console.log('trigger: ', trigger);
-      confirmDia.hide();
+      confirmDia.destroy();
     },
   })
 }
@@ -78,6 +91,9 @@ onUnmounted(() => {
   exitWs.close();
 });
 
+onMounted(() => {
+  getData();
+});
 </script>
 
 <style lang="less" scoped>

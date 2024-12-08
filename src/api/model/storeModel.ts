@@ -90,3 +90,15 @@ export interface actionList {
   actionName: string,
   list?:any
 }
+
+export interface callItem {
+  createBy?: string,
+  createTime?: string,
+  updateBy?: string,
+  updateTime?: string,
+  remark?: string,
+  callId: number,
+  storeId: number,
+  solveStatus: number,
+  storeName: string
+}
