@@ -61,7 +61,8 @@ const exitWs = new Socket(`ws://120.25.125.33:8080/api/websocket/erp/${Math.rand
   const msg=JSON.parse(message)
   console.log('message==websocket',msg)
   if(msg&&msg.topic&&msg.topic==='/callManualService'){
-    DialogPluginConfirm(msg.data)
+    DialogPluginConfirm(msg.data);
+    total.value=msg.data.total;
   }
 });
 
