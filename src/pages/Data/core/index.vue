@@ -2,7 +2,7 @@
   <div class="data-core-wrap" v-loading="Loading">
     <searchFiled @search="getData"/>
     <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">人流量总数：{{ total }}次</div>
-    <t-row :gutter="[16, 16]" v-if="ListData.length&&!Loading">
+    <t-row :gutter="[16, 16]" v-if="ListData.length">
       <t-col v-for="(chart,index) in CHART_LIST_DATA" :key="index" :xs="6" :xl="4">
         <t-card :bordered="false">
           <span class="card-chart-title" :style="{background:chart.titleColor}">{{chart.title}}</span>
@@ -10,7 +10,6 @@
         </t-card>
       </t-col>
     </t-row>
-    <div v-else>未查询到数据</div>
   </div>
 </template>
 

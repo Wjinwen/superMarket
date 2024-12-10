@@ -102,3 +102,12 @@ export interface callItem {
   solveStatus: number,
   storeName: string
 }
+
+export interface config {
+  configId: number,
+  doorLockHold: number|boolean,
+  soundOn: number|boolean,
+  soundVolume: number,
+  storeId: number,
+  sysOn:number|boolean,
+}

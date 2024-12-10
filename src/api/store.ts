@@ -1,5 +1,6 @@
 import type { getListResult } from '@/api/model/storeModel';
 import { request } from '@/utils/request';
+import { number } from 'echarts/core';
 
 const Api = {
   getStoreList: '/store/info/list', //店铺列表
@@ -16,6 +17,9 @@ const Api = {
   getAudio:'/store/handle', //获取动作音频
   getCallList:'/store/sotreManualServiceLog/listUnsolved', //获取未处理的消息列表
   updateCall:'/store/sotreManualServiceLog/solveCallManualService', //处理消息
+  updateDoorStatus:'/device/doorControl', //开关门
+  getStoreConfig:'/store/storeConfig/getInfoByStoreId', //获取门店系统配置
+  updateStoreConfig:'/store/storeConfig', //更新门店系统配置 
 };
 
 export function getStoreList() {
@@ -147,6 +151,27 @@ export function getCallList() {
 export function updateCall(data:any) {
   return request.put<getListResult>({
     url: Api.updateCall,
+    data
+  });
+}
+
+export function updateDoorStatus(data:any) {
+  return request.post<getListResult>({
+    url: Api.updateDoorStatus,
+    data
+  });
+}
+ 
+export function getStoreConfig(storeId:number) {
+  return request.get<getListResult>({
+    url: `${Api.getStoreConfig}/${storeId}`,
+    params:{storeId}
+  });
+}
+
+export function updateStoreConfig(data:any) {
+  return request.put<getListResult>({
+    url: Api.updateStoreConfig,
     data
   });
 }

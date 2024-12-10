@@ -16,6 +16,7 @@
         </div>
       </template>
       <t-pagination
+        v-if='total'
         :total="total"
         v-model="current" 
         v-model:page-size="pageSize"

@@ -8,6 +8,7 @@
           <qaCard style="margin-bottom: 16px;" :Q="list.question" :A="list.answer" />
       </div>
       <t-pagination
+        v-if='total'
         :total="total"
         v-model="current" 
         v-model:page-size="pageSize"
