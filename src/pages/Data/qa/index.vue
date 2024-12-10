@@ -3,18 +3,20 @@
     <searchFiled @search="getSearchData"/>
     <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">对话总数：{{ total }}次</div>
     <div style="background: var(--td-bg-color-container);height: calc(100% - 100px);padding: 16px;">
-      <div style="margin-bottom: 12px">对话记录</div>
-      <div v-for="(list,index) in ListData" :key="index">
-          <qaCard style="margin-bottom: 16px;" :Q="list.question" :A="list.answer" />
-      </div>
-      <t-pagination
-        v-if='total'
-        :total="total"
-        v-model="current" 
-        v-model:page-size="pageSize"
-        @page-size-change="onPageSizeChange"
-        @current-change="onCurrentChange"
-      />
+      <template v-if="total">
+        <div style="margin-bottom: 12px">对话记录</div>
+        <div v-for="(list,index) in ListData" :key="index">
+            <qaCard style="margin-bottom: 16px;" :Q="list.question" :A="list.answer" />
+        </div>
+        <t-pagination
+          :total="total"
+          v-model="current" 
+          v-model:page-size="pageSize"
+          @page-size-change="onPageSizeChange"
+          @current-change="onCurrentChange"
+        />
+      </template>
+      <div v-else>暂无记录</div>
     </div>
   </div>
 </template>

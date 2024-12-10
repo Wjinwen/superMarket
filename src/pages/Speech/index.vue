@@ -5,34 +5,36 @@
       <div style="flex: 1;margin: 0 16px;">反应语言</div>
       <div style="width: 120px;">动作效果</div>
     </div>
-    <div style="background: var(--td-bg-color-container);display: flex;margin-bottom: 16px;padding: 12px 8px 6px;justify-content: space-between;" 
-    v-for="(action,index) in tableData" :key="index">
-      <div style="width: 25%;margin-right: 16px;">
-        <div class="gray-item" style="flex: 1;">
-            {{ action.actionName }}
-          </div>
-      </div>
-      <div style="flex: 1;">
-        <div v-for="(handle,handleindex) in action.list" :key="handleindex" style="margin-bottom: 6px;display: flex;align-items: center">
+    <template v-if="!Loading&&baseData.length">
+      <div style="background: var(--td-bg-color-container);display: flex;margin-bottom: 16px;padding: 12px 8px 6px;justify-content: space-between;" 
+      v-for="(action,index) in tableData" :key="index">
+        <div style="width: 25%;margin-right: 16px;">
           <div class="gray-item" style="flex: 1;">
-            {{ handle.speakWord }}
-          </div>
-          <div class="op-wrap" style="margin-right: 24px;">
-            <!-- <div style="margin-right: 16px;cursor: pointer;" @click="()=>{modifyDiaRef.show(handle,'update')}" >修改</div> -->
-            <div style="color: var(--td-error-color);cursor: pointer;" @click="()=>{opData=handle;delVisible=true}" >删除</div>
-          </div>
-          <div style="width: 120px;">
-            <div class="gray-item" @click="getHandleAudio(handle.handleId)" style="flex: 1;display: flex;justify-content: space-between;color: var(--td-gray-color-7);cursor: pointer;">
-               点击试听
-               <playAudio :audioSrc="handle.speakAudio" autoplay ref="playAudioRef"/>
+              {{ action.actionName }}
+            </div>
+        </div>
+        <div style="flex: 1;">
+          <div v-for="(handle,handleindex) in action.list" :key="handleindex" style="margin-bottom: 6px;display: flex;align-items: center">
+            <div class="gray-item" style="flex: 1;">
+              {{ handle.speakWord }}
+            </div>
+            <div class="op-wrap" style="margin-right: 24px;">
+              <!-- <div style="margin-right: 16px;cursor: pointer;" @click="()=>{modifyDiaRef.show(handle,'update')}" >修改</div> -->
+              <div style="color: var(--td-error-color);cursor: pointer;" @click="()=>{opData=handle;delVisible=true}" >删除</div>
+            </div>
+            <div style="width: 120px;">
+              <div class="gray-item" @click="getHandleAudio(handle.handleId)" style="flex: 1;display: flex;justify-content: space-between;color: var(--td-gray-color-7);cursor: pointer;">
+                点击试听
+                <playAudio :audioSrc="handle.speakAudio" autoplay ref="playAudioRef"/>
+              </div>
             </div>
           </div>
-        </div>
-        <div style="width:calc(100% - 180px);display: flex;justify-content: center;">
-          <t-button @click="()=>{modifyDiaRef.show(action,'add')}">新增</t-button>
+          <div style="width:calc(100% - 180px);display: flex;justify-content: center;">
+            <t-button @click="()=>{modifyDiaRef.show(action,'add')}">新增</t-button>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
     <modifyDia ref="modifyDiaRef" @fresh='getData'/>
     <t-dialog header="删除" v-model:visible="delVisible" :closeOnOverlayClick="false" @confirm="submitDel">
       <div>确认删除反应语言【{{opData?.speakWord}}】吗？</div>
@@ -66,7 +68,8 @@ const playAudioRef=ref(null)
 const initActionData=()=>{
   return [{actionId: 1,actionName: "进门"},
   {actionId: 2,actionName: "出门"},
-  {actionId: 3,actionName: "付款中"}]
+  // {actionId: 3,actionName: "付款中"}
+]
 }
 const opData=ref<actionhandlItem|null>(null)
 
@@ -101,6 +104,7 @@ const getFormateData = (arr:actionhandlItem[]) => {
 
 const getData = () => {
   Loading.value=true;
+  baseData.value=[];
   getActionList().then((res)=>{
     if(res.code===200&&res.rows) {
       baseData.value=res.rows
@@ -122,6 +126,7 @@ const getHandleAudio = async (handleId:number) => {
     return;
   }
   const index=baseData.value.findIndex((item)=>{return item.handleId===handleId})
+  console.log('index',index)
   playAudioRef.value[index].playAudio()
 };
 onMounted(() => {
