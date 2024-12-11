@@ -4,6 +4,13 @@
     :confirm-btn="loading ? { disabled: true, content: '保存' } : {content: '保存'}" :closeOnOverlayClick="false" @confirm="submit"
   >
     <t-form ref="form" :label-width="0" :rules="rules" :data="data">
+      <t-form-item name="actionId">
+        <t-select
+          v-model="data.actionId"
+          :options="actionOptions"
+          placeholder="请选择场景"
+        ></t-select>
+      </t-form-item>
       <t-form-item name="speakWord">
         <t-textarea placeholder="请输入反应语言"  v-model="data.speakWord"/>
       </t-form-item>
@@ -15,7 +22,6 @@
 import { ref } from 'vue';
 import type { FormInstanceFunctions } from 'tdesign-vue-next/es/form/type';
 import { MessagePlugin,FormProps } from 'tdesign-vue-next';
-import type { actionhandlItem } from '@/api/model/storeModel';
 import { updateActionData,addActionData} from '@/api/store'
 
 const emit = defineEmits(['fresh']);
@@ -23,19 +29,23 @@ const form = ref<FormInstanceFunctions | null>(null);
 const visible = ref(false);
 const loading = ref(false);
 const data = ref<any>({
-  speakWord:''
+  speakWord:'',
+  actionId:''
 });
 const opType = ref('add');
 const submiting=ref(false)
-
+const actionOptions = [{value: 1,label: "进门"},
+  {value: 2,label: "出门"},
+  {value: 3,label: "付款中"},
+  {value: 4,label: "付款完成"}]
 const rules: FormProps['rules'] = {
+  actionId: [{required: true,message: '请选择场景',type: 'error',trigger: 'change',}],
   speakWord: [{required: true,message: '请输入反应语言',type: 'error',trigger: 'blur',}],
 }
 
 const show = (opData:any,type:string) => { 
   visible.value = true;
   opType.value=type
-  data.value.actionId = opData.actionId;
   data.value.speakWord = opData.speakWord||'';
 };
 

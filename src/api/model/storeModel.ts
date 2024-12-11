@@ -81,9 +81,13 @@ export interface actionhandlItem {
   remark?: string,
   handleId?:number
   speakWord:string
-  speakAudio?:string|null
+  speakAudio?:string|null|audioinfo
   actionId?:number,
   actionName: string,
+}
+export interface audioinfo {
+  src:string,
+  time:number
 }
 export interface actionList {
   actionId:number,

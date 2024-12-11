@@ -110,9 +110,10 @@ export function addShelfData(data:any) {
   });
 }
 
-export function getActionList() {
+export function getActionList(params?:any) {
   return request.get<getListResult>({
     url: Api.getActionList,
+    params
   });
 }
 export function delActionData(handleIds:number) {

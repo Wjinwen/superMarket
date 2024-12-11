@@ -34,7 +34,9 @@ const isPlaying = ref(false);
 const loaded = () => {
   if (audioPlayer.value) {
     duration.value = Math.floor(audioPlayer.value.duration);
-    if(props.autoplay) playHandler()
+    if(props.autoplay) {
+      playAudio()
+    }
     emit('audioLoaded',audioPlayer.value)
   }
 };
