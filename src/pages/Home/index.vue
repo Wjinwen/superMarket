@@ -44,7 +44,7 @@ export default {
 </script>
 
 <script setup lang="tsx">
-import { computed, nextTick, onDeactivated, onMounted, watch,ref } from 'vue';
+import { onMounted, watch,ref, onUnmounted } from 'vue';
 import { TableProps,DateValue} from 'tdesign-vue-next';
 import dayjs from 'dayjs';
 import { useSettingStore } from '@/store';
@@ -58,6 +58,7 @@ const defaulTime = ref<string>(dayjs().format('YYYY-MM-DD'));
 const Loading=ref<Boolean>(false);
 const tableData=ref<StoreVist[]>([]);
 const vistorList=ref<any>(null);
+const intervalId = ref<any>(null)
 const columns = ref<TableProps['columns']>([
   {
     colKey: 'serial-number',
@@ -82,6 +83,7 @@ const columns = ref<TableProps['columns']>([
 // }
 
 const getData = () => {
+  if(dayjs().format('YYYY-MM-DD')!==defaulTime.value) window.location.reload()
   Loading.value=true;
   Promise.all([getStoreTop10({queryDate:defaulTime.value}), getAllStoreVistor({queryDate:defaulTime.value})]).then(axiosResponses => {
     tableData.value = axiosResponses[0].rows||[];
@@ -89,14 +91,16 @@ const getData = () => {
   }).finally(() => {
     Loading.value=false
   });
- 
 };
 
 onMounted(() => {
   getData()
-});
+  intervalId.value = setInterval(getData, 7200000); // 每两小时执行一次
+})
 
-
+onUnmounted(()=>{
+  clearInterval(intervalId.value);
+}) 
 </script>
 
 <style lang="less" scoped>
