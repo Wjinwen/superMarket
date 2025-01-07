@@ -83,7 +83,8 @@ const columns = ref<TableProps['columns']>([
 // }
 
 const getData = () => {
-  if(dayjs().format('YYYY-MM-DD')!==defaulTime.value) window.location.reload()
+  const curTime=dayjs().format('YYYY-MM-DD')
+  if(curTime!==defaulTime.value) defaulTime.value=curTime
   Loading.value=true;
   Promise.all([getStoreTop10({queryDate:defaulTime.value}), getAllStoreVistor({queryDate:defaulTime.value})]).then(axiosResponses => {
     tableData.value = axiosResponses[0].rows||[];
