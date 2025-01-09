@@ -10,8 +10,8 @@
         </div>
       </div>
       <template v-for="(qa,index) in tableData" :key="index">
-        <div style="display: flex;align-items: center;margin: 16px 0;">
-          <qaCard style="flex:1;" :Q="qa.question" :A="qa.answer"/>
+        <div style="display: flex;align-items: center;margin: 16px 0;" v-if="qa">
+          <qaCard style="flex:1;" :qaitem="qa"/>
           <div class="op-wrap">
             <div style="margin-right: 16px;cursor: pointer;" @click="()=>{opData=qa;modifyDiaRef.show(qa)}" >修改</div>
             <div style="color: var(--td-error-color);cursor: pointer;" @click="()=>{opData=qa;delVisible=true}">删除</div>

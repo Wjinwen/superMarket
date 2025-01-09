@@ -1,5 +1,5 @@
 <template>
-  <div class="home-panel-detail" v-loading='Loading'>
+  <div class="home-panel-detail">
     <div style="display: flex;align-items: center;margin-bottom: 12px;">
       <span style="margin-right: 32px;">全国店铺</span>
       <t-date-picker v-model="defaulTime" clearable :disableDate="{after: dayjs().format()}" :format="'YYYY-MM-DD'" @change="getData"/>
@@ -44,21 +44,18 @@ export default {
 </script>
 
 <script setup lang="tsx">
-import { onMounted, watch,ref, onUnmounted } from 'vue';
-import { TableProps,DateValue} from 'tdesign-vue-next';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { TableProps} from 'tdesign-vue-next';
 import dayjs from 'dayjs';
-import { useSettingStore } from '@/store';
 import { getStoreTop10,getAllStoreVistor} from '@/api/store'
 import type { StoreVist } from '@/api/model/storeModel';
-import { constant } from 'lodash';
 import { PANE_LIST_DATA } from './constants';
 
-
 const defaulTime = ref<string>(dayjs().format('YYYY-MM-DD'));
-const Loading=ref<Boolean>(false);
 const tableData=ref<StoreVist[]>([]);
 const vistorList=ref<any>(null);
-const intervalId = ref<any>(null)
+const intervalId = ref<any>(null);
 const columns = ref<TableProps['columns']>([
   {
     colKey: 'serial-number',
@@ -81,27 +78,24 @@ const columns = ref<TableProps['columns']>([
 //   vistorList.value=null;
 //   getData()
 // }
-
-const getData = () => {
+const route = useRoute();
+const  getData =() => {
   const curTime=dayjs().format('YYYY-MM-DD')
-  if(curTime!==defaulTime.value) defaulTime.value=curTime
-  Loading.value=true;
+  if(curTime!==defaulTime.value) defaulTime.value=curTime;
   Promise.all([getStoreTop10({queryDate:defaulTime.value}), getAllStoreVistor({queryDate:defaulTime.value})]).then(axiosResponses => {
     tableData.value = axiosResponses[0].rows||[];
     vistorList.value = axiosResponses[1].data||null;
-  }).finally(() => {
-    Loading.value=false
-  });
+  })
 };
+watch(() => route.fullPath, (newPath, oldPath) => {
+  if (newPath!=='/home'&& intervalId.value ) {
+    clearInterval(intervalId.value)
+  }else if(newPath==='/home'){
+    getData()
+    intervalId.value=setInterval(getData, 5000);
+  }
+}, { deep:true,immediate:true });
 
-onMounted(() => {
-  getData()
-  intervalId.value = setInterval(getData, 7200000); // 每两小时执行一次
-})
-
-onUnmounted(()=>{
-  clearInterval(intervalId.value);
-}) 
 </script>
 
 <style lang="less" scoped>

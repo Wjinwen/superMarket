@@ -6,7 +6,7 @@
       <template v-if="total">
         <div style="margin-bottom: 12px">对话记录</div>
         <div v-for="(list,index) in ListData" :key="index">
-            <qaCard style="margin-bottom: 16px;" :item="list"/>
+          <qaCard style="margin-bottom: 16px;" :qaitem="list" showTime/>
         </div>
         <t-pagination
           :total="total"
@@ -30,11 +30,11 @@ export default {
 import searchFiled from '@/components/searchFiled/index.vue';
 import qaCard from '@/components/qaCard/index.vue';
 import { getStoreQaHistory} from '@/api/store'
-import type { QaHistoryItem } from '@/api/model/storeModel';
+import type { QaItem } from '@/api/model/storeModel';
 import { PaginationProps } from 'tdesign-vue-next';
 import { ref } from 'vue';
 
-const ListData=ref<QaHistoryItem[]>([])
+const ListData=ref<QaItem[]>([])
 const total=ref<number|null>(null)
 const current = ref(1);
 const pageSize = ref(10);
