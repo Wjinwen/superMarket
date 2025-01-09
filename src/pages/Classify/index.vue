@@ -2,7 +2,10 @@
   <div class="home-panel-detail" v-loading='Loading'>
     <div style="display: flex;align-items: center;margin-bottom: 12px;justify-content: space-between;">
       <searchFiled @search="getSearchData" :showDateRange='false' :showBtn="false" style="margin:0;"/>
-      <t-button @click="()=>{modifyDiaRef.show('',storeId)}" >新增</t-button>
+      <div>
+        <t-button variant="outline" @click="()=>{MessagePlugin.success('同步上传成功');}" >同步上传</t-button>
+          <t-button @click="()=>{modifyDiaRef.show('',storeId)}" >新增</t-button>
+        </div>
     </div>
     <t-table
       row-key="index"

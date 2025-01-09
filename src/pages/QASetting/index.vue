@@ -4,7 +4,10 @@
     <div style="background: var(--td-bg-color-container);height: calc(100% - 36px);padding: 16px;">
       <div style="display: flex;justify-content: space-between;">
         <searchFiled @search="getSearchData" :showDateRange='false' :showBtn="false" style="margin:0;"/>
-        <t-button @click="()=>{modifyDiaRef.show('',storeId)}" >新建话术</t-button>
+        <div>
+          <t-button variant="outline" @click="()=>{MessagePlugin.success('同步上传成功');}" >同步上传</t-button>
+          <t-button @click="()=>{modifyDiaRef.show('',storeId)}" >新建话术</t-button>
+        </div>
       </div>
       <template v-for="(qa,index) in tableData" :key="index">
         <div style="display: flex;align-items: center;margin: 16px 0;">
