@@ -1,12 +1,12 @@
 <template>
   <div class="data-qa-wrap" v-loading='Loading'>
-    <searchFiled @search="getSearchData"/>
+    <searchFiled @search="getSearchData" :dateRange="1"/>
     <div style="font-size: 18px;font-weight: 600;margin-bottom: 16px">对话总数：{{ total }}次</div>
     <div style="background: var(--td-bg-color-container);height: calc(100% - 100px);padding: 16px;">
       <template v-if="total">
         <div style="margin-bottom: 12px">对话记录</div>
         <div v-for="(list,index) in ListData" :key="index">
-            <qaCard style="margin-bottom: 16px;" :Q="list.question" :A="list.answer" />
+            <qaCard style="margin-bottom: 16px;" :item="list"/>
         </div>
         <t-pagination
           :total="total"

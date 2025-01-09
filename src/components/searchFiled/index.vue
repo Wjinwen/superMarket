@@ -36,6 +36,7 @@ const props = defineProps({
     type: String,
   },
   showDateRange:{type:Boolean,default:true},
+  dateRange:{type:Number,default:6},
   showBtn:{type:Boolean,default:true}
 });
 
@@ -77,7 +78,7 @@ onMounted(() => {
   }).finally(()=>{
     subEmit()
   })
-  if(props.showDateRange) searchFiled.value.timeRange=[dayjs().subtract(6, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')]
+  if(props.showDateRange) searchFiled.value.timeRange=[dayjs().subtract(props.dateRange, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')]
 });
 
 
