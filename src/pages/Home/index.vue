@@ -1,8 +1,8 @@
 <template>
-  <div class="home-panel-detail">
+  <div class="home-panel-detail" v-loading="Loading&&searchByHand">
     <div style="display: flex;align-items: center;margin-bottom: 12px;">
       <span style="margin-right: 32px;">全国店铺</span>
-      <t-date-picker v-model="defaulTime" clearable :disableDate="{after: dayjs().format()}" :format="'YYYY-MM-DD'" @change="getData"/>
+      <t-date-picker v-model="defaulTime" :disableDate="{after: dayjs().format()}" :format="'YYYY-MM-DD'" @change="changeHandler"/>
     </div>
     <t-row :gutter="[16, 16]">
       <t-col v-for="(item, index) in PANE_LIST_DATA" :key="index" :xs="6" :xl="4" :xxl="3">
@@ -46,16 +46,18 @@ export default {
 <script setup lang="tsx">
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { TableProps} from 'tdesign-vue-next';
+import { TableProps,DateValue} from 'tdesign-vue-next';
 import dayjs from 'dayjs';
 import { getStoreTop10,getAllStoreVistor} from '@/api/store'
 import type { StoreVist } from '@/api/model/storeModel';
 import { PANE_LIST_DATA } from './constants';
 
 const defaulTime = ref<string>(dayjs().format('YYYY-MM-DD'));
-const tableData=ref<StoreVist[]>([]);
-const vistorList=ref<any>(null);
+const tableData = ref<StoreVist[]>([]);
+const vistorList = ref<any>(null);
 const intervalId = ref<any>(null);
+const searchByHand = ref<boolean>(false);
+const Loading = ref<boolean>(false);
 const columns = ref<TableProps['columns']>([
   {
     colKey: 'serial-number',
@@ -74,25 +76,37 @@ const columns = ref<TableProps['columns']>([
     align:'center'
   }
 ]);
-// function handleChange(value: DateValue,) {
-//   vistorList.value=null;
-//   getData()
-// }
+
 const route = useRoute();
-const  getData =() => {
-  const curTime=dayjs().format('YYYY-MM-DD')
-  if(curTime!==defaulTime.value) defaulTime.value=curTime;
+const  getData = () => {
+  Loading.value = true;
+  const curTime = dayjs().format('YYYY-MM-DD')
+  if(!searchByHand.value && (curTime !== defaulTime.value)) defaulTime.value=curTime;
   Promise.all([getStoreTop10({queryDate:defaulTime.value}), getAllStoreVistor({queryDate:defaulTime.value})]).then(axiosResponses => {
-    tableData.value = axiosResponses[0].rows||[];
-    vistorList.value = axiosResponses[1].data||null;
+    tableData.value = axiosResponses[0].rows || [];
+    vistorList.value = axiosResponses[1].data || null;
+    Loading.value = false;
   })
 };
+
+const  changeHandler = (searchTime:DateValue) => {
+  const curTime = dayjs().format('YYYY-MM-DD')
+  if (curTime === searchTime) {
+    searchByHand.value = false;
+    intervalId.value = setInterval(getData, 5000);
+  } else {
+    clearInterval(intervalId.value);
+    searchByHand.value = true;
+  }
+  getData()
+};
 watch(() => route.fullPath, (newPath, oldPath) => {
-  if (newPath!=='/home'&& intervalId.value ) {
-    clearInterval(intervalId.value)
-  }else if(newPath==='/home'){
-    getData()
-    intervalId.value=setInterval(getData, 5000);
+  if (newPath !== '/home' && intervalId.value ) {
+    clearInterval(intervalId.value);
+  }else if(newPath === '/home'){
+    defaulTime.value = dayjs().format('YYYY-MM-DD');
+    getData();
+    intervalId.value = setInterval(getData, 5000);
   }
 }, { deep:true,immediate:true });
 
