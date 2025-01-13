@@ -105,3 +105,16 @@ export interface config {
   storeId: number,
   sysOn:number|boolean,
 }
+
+export interface actionType {
+  createBy?: string,
+  createTime?: string,
+  updateBy?: string,
+  updateTime?: string,
+  remark?: string,
+  actionId: number,
+  actionName: string,
+  actionDescription?: string,
+  storeId: number,
+  sysOn:number|boolean,
+}

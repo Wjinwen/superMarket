@@ -12,6 +12,7 @@ const Api = {
   operateQa:'/store/qa',
   getShelfData:'/store/shelfData/list', //商品货架分类
   opShelfData:'/store/shelfData', 
+  getActionTypeList:'/store/action/list', //场景类型列表
   getActionList:'/store/handle/list', //场景动作列表
   opActionData:'/store/handle', 
   getAudio:'/store/handle', //获取动作音频
@@ -116,6 +117,13 @@ export function getActionList(params?:any) {
     params
   });
 }
+
+export function getActionTypeList() {
+  return request.get<getListResult>({
+    url: Api.getActionTypeList
+  });
+}
+
 export function delActionData(handleIds:number) {
   return request.delete<getListResult>({
     url: `${Api.opActionData}/${handleIds}`,

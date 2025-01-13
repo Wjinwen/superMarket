@@ -80,15 +80,15 @@ const columns = ref<TableProps['columns']>([
     width: '100',
   }
 ]);
-const playAudioRef=ref()
-const ListData=ref<actionhandlItem[]>([])
-const storeId=ref<number|null>(null)
-const submiting=ref(false)
+const playAudioRef=ref();
+const ListData=ref<actionhandlItem[]>([]);
+const storeId=ref<number|null>(null);
+const submiting=ref(false);
 const Loading=ref<Boolean>(false);
 
-const total=ref<number|null>(null)
+const total=ref<number|null>(null);
 const current = ref(1);
-const pageSize = ref(10);
+const pageSize = ref(20);
 
 const getData = () => {
   if(Loading.value) return;
@@ -101,7 +101,6 @@ const getData = () => {
     }
   }).finally(()=>{ Loading.value=false;})
 };
-
 const setrowspans = (arr:any) => {
     const columns = ['actionName']; // 需要合并的列名
     const data=JSON.parse(JSON.stringify(arr))
@@ -170,7 +169,7 @@ const onCurrentChange: PaginationProps['onCurrentChange'] = (index, pageInfo) =>
 };
 
 onMounted(() => {
-  getData()
+  getData();
 });
 
 </script>

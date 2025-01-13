@@ -9,6 +9,7 @@
           v-model="data.actionId"
           :options="actionOptions"
           placeholder="请选择场景"
+          :keys="{ value:'actionId',label:'actionName' }"
         ></t-select>
       </t-form-item>
       <t-form-item name="speakWord">
@@ -19,10 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
 import type { FormInstanceFunctions } from 'tdesign-vue-next/es/form/type';
 import { MessagePlugin,FormProps } from 'tdesign-vue-next';
-import { updateActionData,addActionData} from '@/api/store'
+import { updateActionData,addActionData,getActionTypeList} from '@/api/store'
+import type { actionType } from '@/api/model/storeModel';
 
 const emit = defineEmits(['fresh']);
 const form = ref<FormInstanceFunctions | null>(null);
@@ -34,10 +36,7 @@ const data = ref<any>({
 });
 const opType = ref('add');
 const submiting=ref(false)
-const actionOptions = [{value: 1,label: "进门"},
-  {value: 2,label: "出门"},
-  {value: 3,label: "付款中"},
-  {value: 4,label: "付款完成"}]
+const actionOptions = ref<actionType[]>([])
 const rules: FormProps['rules'] = {
   actionId: [{required: true,message: '请选择场景',type: 'error',trigger: 'change',}],
   speakWord: [{required: true,message: '请输入反应语言',type: 'error',trigger: 'blur',}],
@@ -78,6 +77,14 @@ const submit = () => {
     }
   });
 };
+
+onMounted(() => {
+  getActionTypeList().then((res)=>{
+    if(res.code===200&&res.rows) {
+      actionOptions.value = res.rows;
+    }
+  })
+});
 
 defineExpose({ show });
 </script>
